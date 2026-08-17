@@ -138,35 +138,28 @@ jobs:
 
           ALL_FILES_SECTION=$(echo "$ALL_FILES" | sed 's/^/- /')
 
-          BODY="上游仓库 [mattpocock/skills](https://github.com/mattpocock/skills) 的 \`main\` 分支发现 **${COUNT}** 个新 commit，当前仓库尚未同步。
+          ISSUE_BODY_FILE=$(mktemp /tmp/check-upstream-issue-body-XXXXXX.md)
+          REPO="${{ github.repository }}"
 
-## 新 commit 列表
-
-${COMMITS_LIST}
-
-## 涉及的 skill 文件（\`skills/\` 目录）
-
-${SKILLS_SECTION}
-
-<details>
-<summary>全部改动文件清单（点击展开）</summary>
-
-${ALL_FILES_SECTION}
-
-</details>
-
-## 后续步骤
-
-1. **同步上游改动**：通过 GitHub 的 "Sync fork" 功能或手动 \`git fetch upstream && git merge upstream/main\` 将上游最新改动合并到本仓库 \`main\` 分支。
-2. **检查中文翻译**：对照上方涉及的 skill 文件，检查 \`zh-CN/\` 目录下对应翻译文件是否需要更新（新增或修改）。
-3. **更新翻译状态**：完成翻译更新后，记得同步更新 \`zh-CN/README.md\` 中的翻译状态清单，填写对应的 commit SHA 与翻译进度。
-
----
-
-*此 Issue 由 [check-upstream workflow](https://github.com/${{ github.repository }}/actions/workflows/check-upstream.yml) 自动创建。*"
+          {
+            printf '上游仓库 [mattpocock/skills](https://github.com/mattpocock/skills) 的 `main` 分支发现 **%s** 个新 commit，当前仓库尚未同步。\n\n' "$COUNT"
+            printf '## 新 commit 列表\n\n'
+            printf '%b\n' "$COMMITS_LIST"
+            printf '## 涉及的 skill 文件（`skills/` 目录）\n\n'
+            printf '%s\n\n' "$SKILLS_SECTION"
+            printf '<details>\n<summary>全部改动文件清单（点击展开）</summary>\n\n'
+            printf '%s\n\n' "$ALL_FILES_SECTION"
+            printf '</details>\n\n'
+            printf '## 后续步骤\n\n'
+            printf '1. **同步上游改动**：通过 GitHub 的 "Sync fork" 功能或手动 `git fetch upstream && git merge upstream/main` 将上游最新改动合并到本仓库 `main` 分支。\n'
+            printf '2. **检查中文翻译**：对照上方涉及的 skill 文件，检查 `zh-CN/` 目录下对应翻译文件是否需要更新（新增或修改）。\n'
+            printf '3. **更新翻译状态**：完成翻译更新后，记得同步更新 `zh-CN/README.md` 中的翻译状态清单，填写对应的 commit SHA 与翻译进度。\n\n'
+            printf -- '---\n\n'
+            printf '*此 Issue 由 [check-upstream workflow](https://github.com/%s/actions/workflows/check-upstream.yml) 自动创建。*\n' "$REPO"
+          } > "$ISSUE_BODY_FILE"
 
           gh issue create \
             --repo "${{ github.repository }}" \
             --title "[上游同步] 发现新更新 (upstream @ ${LATEST_SHA})" \
             --label "upstream-sync" \
-            --body "$BODY"
+            --body-file "$ISSUE_BODY_FILE"
