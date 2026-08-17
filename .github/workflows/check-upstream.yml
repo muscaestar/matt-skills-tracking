@@ -45,10 +45,10 @@ jobs:
       - name: Collect commit details and changed files
         if: steps.check.outputs.no_new_commits == 'false'
         id: collect
+        env:
+          COUNT: ${{ steps.check.outputs.count }}
+          LATEST_SHA: ${{ steps.check.outputs.latest_sha }}
         run: |
-          COUNT="${{ steps.check.outputs.count }}"
-          LATEST_SHA="${{ steps.check.outputs.latest_sha }}"
-
           # Collect commits
           COMMITS_LIST=""
           while IFS= read -r line; do
@@ -101,8 +101,8 @@ jobs:
         id: existing_issue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LATEST_SHA: ${{ steps.check.outputs.latest_sha }}
         run: |
-          LATEST_SHA="${{ steps.check.outputs.latest_sha }}"
           EXISTING=$(gh issue list \
             --repo "${{ github.repository }}" \
             --label "upstream-sync" \
@@ -123,13 +123,12 @@ jobs:
           steps.existing_issue.outputs.exists == 'false'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COUNT: ${{ steps.check.outputs.count }}
+          LATEST_SHA: ${{ steps.check.outputs.latest_sha }}
+          COMMITS_LIST: ${{ steps.collect.outputs.commits_list }}
+          ALL_FILES: ${{ steps.collect.outputs.all_files }}
+          SKILLS_FILES: ${{ steps.collect.outputs.skills_files }}
         run: |
-          COUNT="${{ steps.check.outputs.count }}"
-          LATEST_SHA="${{ steps.check.outputs.latest_sha }}"
-          COMMITS_LIST="${{ steps.collect.outputs.commits_list }}"
-          ALL_FILES="${{ steps.collect.outputs.all_files }}"
-          SKILLS_FILES="${{ steps.collect.outputs.skills_files }}"
-
           if [ -z "$SKILLS_FILES" ]; then
             SKILLS_SECTION="（本次上游更新未涉及 \`skills/\` 目录下的文件）"
           else
