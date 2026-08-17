@@ -35,7 +35,7 @@ zh-CN/
 | --- | --- | --- |
 | README.md（仓库总览） | 待翻译 | 尚未开始 |
 | skills/engineering/* | 待翻译 | 尚未开始 |
-| skills/productivity/* | 待翻译 | 尚未开始 |
+| skills/productivity/* | 部分完成 | 已完成 `README.md`、`wait-what/SKILL.md`、`wait-what/agents/openai.yaml`；其余待翻译 |
 | skills/misc/* | 待翻译 | 尚未开始 |
 | skills/deprecated/* | 待翻译 | 尚未开始 |
 
