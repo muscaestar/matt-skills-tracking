@@ -1,0 +1,172 @@
+name: Check Upstream Updates
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-upstream:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch upstream
+        run: |
+          git remote add upstream https://github.com/mattpocock/skills.git
+          git fetch upstream main
+
+      - name: Check for new commits
+        id: check
+        run: |
+          NEW_COMMITS=$(git log HEAD..upstream/main --oneline)
+          if [ -z "$NEW_COMMITS" ]; then
+            echo "no_new_commits=true" >> "$GITHUB_OUTPUT"
+            echo "No new commits from upstream."
+          else
+            COUNT=$(git log HEAD..upstream/main --oneline | wc -l | tr -d ' ')
+            LATEST_SHA=$(git rev-parse --short upstream/main)
+            echo "no_new_commits=false" >> "$GITHUB_OUTPUT"
+            echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+            echo "latest_sha=$LATEST_SHA" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stop if no new commits
+        if: steps.check.outputs.no_new_commits == 'true'
+        run: echo "No new upstream commits. Exiting." && exit 0
+
+      - name: Collect commit details and changed files
+        if: steps.check.outputs.no_new_commits == 'false'
+        id: collect
+        run: |
+          COUNT="${{ steps.check.outputs.count }}"
+          LATEST_SHA="${{ steps.check.outputs.latest_sha }}"
+
+          # Collect commits
+          COMMITS_LIST=""
+          while IFS= read -r line; do
+            SHA=$(echo "$line" | awk '{print $1}')
+            MSG=$(git log -1 --format="%s" "$SHA" 2>/dev/null || echo "$line")
+            AUTHOR=$(git log -1 --format="%an" "$SHA" 2>/dev/null || echo "unknown")
+            DATE=$(git log -1 --format="%as" "$SHA" 2>/dev/null || echo "unknown")
+            FULL_SHA=$(git rev-parse "$SHA" 2>/dev/null || echo "$SHA")
+            COMMITS_LIST="${COMMITS_LIST}- [\`${SHA}\`](https://github.com/mattpocock/skills/commit/${FULL_SHA}) ${MSG} (@${AUTHOR}, ${DATE})\n"
+          done < <(git log HEAD..upstream/main --oneline)
+
+          # Collect all changed files
+          ALL_FILES=$(git diff --name-only HEAD upstream/main | sort)
+
+          # Filter skills/ files
+          SKILLS_FILES=$(echo "$ALL_FILES" | grep '^skills/' || true)
+
+          # Write multi-line outputs using heredoc
+          {
+            echo "commits_list<<EOF_COMMITS"
+            printf "%b" "$COMMITS_LIST"
+            echo "EOF_COMMITS"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "all_files<<EOF_ALL"
+            echo "$ALL_FILES"
+            echo "EOF_ALL"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "skills_files<<EOF_SKILLS"
+            echo "$SKILLS_FILES"
+            echo "EOF_SKILLS"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Ensure upstream-sync label exists
+        if: steps.check.outputs.no_new_commits == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh label create "upstream-sync" \
+            --description "自动追踪上游更新的 Issue" \
+            --color "0075ca" \
+            --repo "${{ github.repository }}" \
+            2>/dev/null || true
+
+      - name: Check for existing tracking issue
+        if: steps.check.outputs.no_new_commits == 'false'
+        id: existing_issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST_SHA="${{ steps.check.outputs.latest_sha }}"
+          EXISTING=$(gh issue list \
+            --repo "${{ github.repository }}" \
+            --label "upstream-sync" \
+            --state open \
+            --search "[上游同步] 发现新更新 (upstream @ ${LATEST_SHA})" \
+            --json number \
+            --jq '.[0].number' 2>/dev/null || echo "")
+          if [ -n "$EXISTING" ] && [ "$EXISTING" != "null" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Found existing issue #${EXISTING}, skipping creation."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create tracking issue
+        if: >
+          steps.check.outputs.no_new_commits == 'false' &&
+          steps.existing_issue.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COUNT="${{ steps.check.outputs.count }}"
+          LATEST_SHA="${{ steps.check.outputs.latest_sha }}"
+          COMMITS_LIST="${{ steps.collect.outputs.commits_list }}"
+          ALL_FILES="${{ steps.collect.outputs.all_files }}"
+          SKILLS_FILES="${{ steps.collect.outputs.skills_files }}"
+
+          if [ -z "$SKILLS_FILES" ]; then
+            SKILLS_SECTION="（本次上游更新未涉及 \`skills/\` 目录下的文件）"
+          else
+            SKILLS_SECTION=$(echo "$SKILLS_FILES" | sed 's/^/- /')
+          fi
+
+          ALL_FILES_SECTION=$(echo "$ALL_FILES" | sed 's/^/- /')
+
+          BODY="上游仓库 [mattpocock/skills](https://github.com/mattpocock/skills) 的 \`main\` 分支发现 **${COUNT}** 个新 commit，当前仓库尚未同步。
+
+## 新 commit 列表
+
+${COMMITS_LIST}
+
+## 涉及的 skill 文件（\`skills/\` 目录）
+
+${SKILLS_SECTION}
+
+<details>
+<summary>全部改动文件清单（点击展开）</summary>
+
+${ALL_FILES_SECTION}
+
+</details>
+
+## 后续步骤
+
+1. **同步上游改动**：通过 GitHub 的 "Sync fork" 功能或手动 \`git fetch upstream && git merge upstream/main\` 将上游最新改动合并到本仓库 \`main\` 分支。
+2. **检查中文翻译**：对照上方涉及的 skill 文件，检查 \`zh-CN/\` 目录下对应翻译文件是否需要更新（新增或修改）。
+3. **更新翻译状态**：完成翻译更新后，记得同步更新 \`zh-CN/README.md\` 中的翻译状态清单，填写对应的 commit SHA 与翻译进度。
+
+---
+
+*此 Issue 由 [check-upstream workflow](https://github.com/${{ github.repository }}/actions/workflows/check-upstream.yml) 自动创建。*"
+
+          gh issue create \
+            --repo "${{ github.repository }}" \
+            --title "[上游同步] 发现新更新 (upstream @ ${LATEST_SHA})" \
+            --label "upstream-sync" \
+            --body "$BODY"
