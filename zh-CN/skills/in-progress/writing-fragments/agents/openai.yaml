@@ -1,0 +1,5 @@
+interface:
+  display_name: "Writing Fragments"
+  short_description: "开采原始写作碎片"
+policy:
+  allow_implicit_invocation: false
