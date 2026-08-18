@@ -37,9 +37,10 @@ zh-CN/
 | 分类 | 状态 | 说明 |
 | --- | --- | --- |
 | README.md（仓库总览） | 待翻译 | 尚未开始 |
-| skills/engineering/* | 待翻译 | 尚未开始 |
+| skills/engineering/* | 已完成 | 已全部翻译（`README.md` 及全部 18 个技能：`ask-matt`、`code-review`、`codebase-design`、`diagnosing-bugs`、`domain-modeling`、`grill-with-docs`、`implement`、`improve-codebase-architecture`、`prototype`、`research`、`resolving-merge-conflicts`、`setup-matt-pocock-skills`、`tdd`、`to-spec`、`to-tickets`、`triage`、`wayfinder`、`wizard`），各 `SKILL.md` 均已添加 `commit_version` |
 | skills/productivity/* | 已完成 | 已全部翻译（`README.md`、`grill-me`、`grilling`、`handoff`、`teach`、`to-questionnaire`、`wait-what`、`writing-for-agents`），各 `SKILL.md` 均已添加 `commit_version` |
 | skills/misc/* | 待翻译 | 尚未开始 |
+| skills/in-progress/* | 待翻译 | 尚未开始 |
 | skills/deprecated/* | 待翻译 | 尚未开始 |
 
 > 本清单会随着翻译进度持续更新。
