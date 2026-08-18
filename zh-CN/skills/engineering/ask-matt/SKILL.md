@@ -40,7 +40,7 @@ commit_version: 61accb0e66652cfe71da1266d49f1cbd129e3ae1
 
   分诊只用于**不是由你创建**的 issue——bug 报告、进来的功能请求、任何原始到达的内容。`/to-tickets` 产出的 ticket 已经是 agent 就绪的，所以**不要对它们分诊**。
 
-- **有东西坏了** → **`/diagnosing-bugs`**。用于那些疑难杂症：一眼看不穿的 bug、时有时无的偶发失败、在两个已知良好状态之间悄悄混入的回退。在拥有一个**紧凑的反馈回路**——一条已经会因*这个* bug 变红的命令——之前，它拒绝凭空猜测；然后它会用回归测试修复。当事后复盘发现真正的问题是“没有好的接缝可以把 bug 锁死”时，它会转交 **`/improve-codebase-architecture`**。
+- **有东西坏了** → **`/diagnosing-bugs`**。用于那些疑难杂症：一眼看不穿的 bug、时有时无的偶发失败、在两个已知良好状态之间悄悄混入的回退。在拥有一个**紧凑（tight）的反馈回路**——一条已经会因*这个* bug 变红的命令——之前，它拒绝凭空猜测；然后它会用回归测试修复。当事后复盘发现真正的问题是“没有好的 seam 可以把 bug 锁死”时，它会转交 **`/improve-codebase-architecture`**。
 
 - **一项庞大而迷雾重重的工作——绿地项目或单会话装不下的大型功能构建** → **`/wayfinder`**，这里是认知负担最重的流程。当从此处到目的地的路径尚不可见时，它会在 issue 跟踪器上绘制一张由**决策 ticket** 组成的**共享地图**，并一次解决一个——产出的是**决策，而不是交付物**——直到迷雾被驱散、路径清晰。**`/grill-with-docs`** 打磨的是你单会话能把握的想法；wayfinder 则用于你把握不了的想法——它更慢也更稠密，所以只留给这种情况，绝不要用在范围明确的功能上。
 
@@ -57,7 +57,7 @@ commit_version: 61accb0e66652cfe71da1266d49f1cbd129e3ae1
 两个模型调用的参考技能，运行在其他技能的*底层*——各自是其词汇的单一事实来源。当问题出在**用词**而非流程时，直接使用它们；也可以让上面的技能自行调用它们。
 
 - **`/domain-modeling`**——打磨项目的*领域*语言：质疑模糊术语，理清被重载的词（一个 “account” 干了三件事），把难以逆转的决策记录为 ADR。它是 `/grill-with-docs` 所驱动的主动纪律，让 `CONTEXT.md` 保持为一本干净的术语表。
-- **`/codebase-design`**——设计模块*形状*所用的深模块词汇（module、interface、depth、seam、adapter、leverage、locality）：把大量行为放在干净接缝处的小接口后面。`/tdd` 和 `/improve-codebase-architecture` 都在使用这套词汇。
+- **`/codebase-design`**——设计模块*形状*所用的深模块词汇（module、interface、depth、seam、adapter、leverage、locality）：把大量行为放在干净 seam 处的小接口后面。`/tdd` 和 `/improve-codebase-architecture` 都在使用这套词汇。
 
 ## 阶段边界
 
@@ -76,7 +76,7 @@ commit_version: 61accb0e66652cfe71da1266d49f1cbd129e3ae1
 完全脱离主流程。
 
 - **`/grill-me`**——与 `/grill-with-docs` 同样毫不留情的访谈，但**无状态**：它不在本地保存任何东西，也不构建 `CONTEXT.md`。当你**不在工作目录中工作**时使用它——打磨计划、设计、文章等任何下面没有仓库的东西。如果你在工作目录中，请改用 `/grill-with-docs`：同样的访谈却会留下书面记录，因此严格来说它是更好的选择。
-- **`/grilling`**——访谈原语本身：轮次、前沿、事实由 agent 负责而决策归你。`/grill-me` 和 `/grill-with-docs` 是两条具名的进入路径，`/triage`、`/wayfinder` 和 `/improve-codebase-architecture` 都在内部运行它。只有当你想要不带任何包装的访谈时，才直接使用它。
+- **`/grilling`**——访谈原语本身：轮次、frontier、事实由 agent 负责而决策归你。`/grill-me` 和 `/grill-with-docs` 是两条具名的进入路径，`/triage`、`/wayfinder` 和 `/improve-codebase-architecture` 都在内部运行它。只有当你想要不带任何包装的访谈时，才直接使用它。
 - **`/resolving-merge-conflicts`**——逐块处理进行中的 merge 或 rebase 冲突，按追溯到双方一手来源的**意图**来解决，而不是挑拣行；然后完成操作。它绝不运行 `--abort`。独立于所有流程之外：当你已经身处冲突之中时使用它。
 - **`/prototype`**——一个小型一次性程序，回答一个设计问题：这个状态模型是否顺手，或者这个 UI 应该长什么样。“一次性”是对代码写法的一种约束，而不是承诺销毁它：答案会折入真实代码，原型本身则作为**一手来源**保留在 main 之外的 `prototype/<name>` 分支上，并由实现 issue 指向它。它是主流程第 2 步中的绕行路径，但只要设计问题难以在纸面上解决，随时可以使用。
 - **`/research`**——把阅读这种跑腿工作委派给**后台 agent**：它对照**一手来源**调查问题，然后在仓库中留下一份带引用的 Markdown 文件。它阅读时你可以继续工作。它产出的文件是带入 `/grill-with-docs` 主流程的*素材*——研究为思考提供养料，而不是替代思考。

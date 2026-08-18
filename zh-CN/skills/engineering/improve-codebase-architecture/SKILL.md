@@ -11,8 +11,8 @@ commit_version: fcf0071560d32913c9d4f820e0d7ca467c881619
 
 本命令以项目领域模型为*依据*，并建立在一套共享设计词汇之上：
 
-- 调用 Skill 工具，使用 "codebase-design" 获取架构词汇（**module**、**interface**、**depth**、**seam**、**adapter**、**leverage**、**locality**）及其原则（删除测试、“接口就是测试面”、“一个 adapter = 假设性接缝，两个 = 真实接缝”）。每条建议都要严格使用这些术语——不要漂移到 “component”、“service”、“API” 或 “boundary”。
-- `CONTEXT.md` 中的领域语言为好接缝命名；`docs/adr/` 中的 ADR 记录本命令不应重新争辩的决策。
+- 调用 Skill 工具，使用 "codebase-design" 获取架构词汇（**module**、**interface**、**depth**、**seam**、**adapter**、**leverage**、**locality**）及其原则（the deletion test、“the interface is the test surface”、“one adapter = hypothetical seam, two = real”）。每条建议都要严格使用这些术语——不要漂移到 “component”、“service”、“API” 或 “boundary”。
+- `CONTEXT.md` 中的领域语言为好 seam 命名；`docs/adr/` 中的 ADR 记录本命令不应重新争辩的决策。
 
 ## 流程
 
@@ -30,10 +30,10 @@ commit_version: fcf0071560d32913c9d4f820e0d7ca467c881619
 - 理解一个概念时，哪里需要在许多小模块之间来回跳？
 - 哪些模块是**浅**的——接口几乎和实现一样复杂？
 - 哪里为了可测试性抽出了纯函数，但真正的 bug 却藏在它们被调用的方式里（没有**局部性**）？
-- 哪些紧耦合模块在自己的接缝处发生泄漏？
+- 哪些紧耦合模块在自己的 seam 处发生泄漏？
 - 代码库的哪些部分没有测试，或难以通过当前接口测试？
 
-对任何你怀疑是浅模块的东西应用**删除测试**：删除它会集中复杂度，还是仅仅转移复杂度？“会集中”正是你要找的信号。
+对任何你怀疑是浅模块的东西应用 **the deletion test（删除测试）**：删除它会集中复杂度，还是仅仅转移复杂度？“会集中”正是你要找的信号。
 
 ### 2. 以 HTML 报告呈现候选
 
@@ -62,7 +62,7 @@ commit_version: fcf0071560d32913c9d4f820e0d7ca467c881619
 
 ### 3. 追问循环
 
-用户选定候选后，调用 Skill 工具，使用 "grilling" 与他们一起走决策树——约束、依赖、深化后模块的形状、接缝后面放什么、哪些测试能存活。
+用户选定候选后，调用 Skill 工具，使用 "grilling" 与他们一起走决策树——约束、依赖、深化后模块的形状、seam 后面放什么、哪些测试能存活。
 
 决策成形时副作用即时发生——调用 Skill 工具，使用 "domain-modeling" 让领域模型随时保持最新：
 
