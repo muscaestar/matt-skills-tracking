@@ -13,10 +13,15 @@
 
 1. 只翻译文字内容，不改动原始英文文件。
 2. 术语、代码块、命令行示例、frontmatter 字段名等保持原样，不做翻译（如涉及专有名词，如 "skill"、"grill"、"TDD" 等，需要在项目内保持一致的翻译/不翻译选择）。
-3. 每个 `SKILL.md` 翻译文件**必须**在 frontmatter 内注明对应英文原文件最近一次改动的完整 commit SHA，key 名 `commit_version`（多出的字段会被 skill loader 忽略，不影响解析）。源文件路径由 `zh-CN/` 与 `skills/` 的一一对应关系推导，无需记录；`README.md`、`openai.yaml` 等其他文件不记录。SHA 取 `git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。完整规范见 `zh-CN/README.md`。
-4. 翻译完成后，务必同步更新 `zh-CN/README.md` 中的翻译状态清单。
-5. 全新增加的 skill 文件 → 需要完整翻译；只有局部文字改动的 → 只需要更新对应改动的段落，保持已有翻译风格、术语一致，不要整篇重翻。
-6. 纯格式/链接更新等无实质内容变化的改动，可以跳过或简单处理。
+3. **词汇原语（leading words）必须保留英文 token。** 这套技能的词汇是跨文件共享的：词在一个文件里定义、被其他文件引用（如 `frontier`、`seam`、`tracer bullet`、`deletion test`、`fog of war`）。英文 token 一旦译没，引用就断了。规则：
+   - **定义处**（该词被首次定义/解释的文件）：采用「中文（English）」形式，英文 token 必须出现，如「曳光弹（tracer bullet）」「能变红（red-capable）」。
+   - **被其他文件以英文裸引用的词**（如 wayfinder/to-tickets 引用 grilling 的 `frontier`）：定义后正文统一沿用英文 token，保证引用方能连回定义源头。
+   - **引用处**：跟随定义源头的 token 选择，不另造译名。
+   - **同一原语全项目只有一个 token**：翻译前 grep `zh-CN/` 检查既有用法；既有用法互相矛盾时，以定义源头文件为准并同步其余文件。
+4. 每个 `SKILL.md` 翻译文件**必须**在 frontmatter 内注明对应英文原文件最近一次改动的完整 commit SHA，key 名 `commit_version`（多出的字段会被 skill loader 忽略，不影响解析）。源文件路径由 `zh-CN/` 与 `skills/` 的一一对应关系推导，无需记录；`README.md`、`openai.yaml` 等其他文件不记录。SHA 取 `git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。完整规范见 `zh-CN/README.md`。
+5. 翻译完成后，务必同步更新 `zh-CN/README.md` 中的翻译状态清单。
+6. 全新增加的 skill 文件 → 需要完整翻译；只有局部文字改动的 → 只需要更新对应改动的段落，保持已有翻译风格、术语一致，不要整篇重翻。
+7. 纯格式/链接更新等无实质内容变化的改动，可以跳过或简单处理。
 
 # 上游同步机制（三阶段流程）
 
