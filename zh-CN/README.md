@@ -9,6 +9,7 @@
 ```
 zh-CN/
 ├── README.md                  # 本文件
+├── PRIMITIVES.md              # 全项目原语（leading words）登记处——翻译前先查这份表
 ├── skills/
 │   ├── engineering/
 │   │   ├── ask-matt/
@@ -26,6 +27,7 @@ zh-CN/
 
 1. **不修改原始英文文件**：根目录下的 `.agents/`、`skills/`、`AGENTS.md`、`CLAUDE.md` 等文件保持与上游一致，只做同步（sync fork / merge upstream），不做任何汉化改动，以避免与上游更新产生合并冲突。
 2. **逐字翻译**：`zh-CN/` 下的翻译内容力求忠实原文，同时保持中文表达自然流畅；专有名词（如技能名 `/tdd`、`/grill-me` 等命令名）保留英文原名不译。
+   - **词汇原语（leading words）**：跨文件共享的原语（如 `frontier`、`seam`、`tracer bullet`）必须保留英文 token，token 选择一律以 [`PRIMITIVES.md`](./PRIMITIVES.md) 登记为准；完整规则见 `.github/copilot-instructions.md` 翻译规范第 3 条。
 3. **文件级追踪（必须）**：每个 `SKILL.md` 翻译文件必须在 frontmatter 内注明对应英文原文件最近一次改动的 commit **完整** SHA，key 名 `commit_version`，方便判断该翻译是否已经过期、是否需要跟随上游更新重新翻译。源文件路径无需记录（`zh-CN/` 与 `skills/` 目录一一对应，可由翻译文件自身路径去掉 `zh-CN/` 前缀推导）；`README.md`、`openai.yaml` 等其他文件不记录。
    - 写法：在 frontmatter 现有字段之后、结束 `---` 之前加一行 `commit_version: <full-sha>`（frontmatter 多出的字段会被 skill loader 忽略，不影响解析）。
    - 获取 SHA：`git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。
