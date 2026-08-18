@@ -28,7 +28,7 @@ argument-hint: "<要翻译的文件列表>"
 5. **术语约定**：
    - "skill" 在正文中翻译为"技能"
    - 遇到不确定是否该翻译的专有名词/技术术语，保持英文原文，可在括号内补充简短中文说明
-   - **词汇原语（leading words）必须保留英文 token**：词在一个文件定义、被其他文件引用（如 `frontier`、`seam`、`tracer bullet`、`deletion test`）。定义处用「中文（English）」，如「曳光弹（tracer bullet）」；被其他文件以英文裸引用的词，正文统一沿用英文 token；引用处跟随定义源头，不另造译名；同一原语全项目只有一个 token，翻译前先 grep `zh-CN/` 检查既有用法。完整规则见 `.github/copilot-instructions.md` 翻译规范第 3 条。
+   - **词汇原语（leading words）必须保留英文 token**：词在一个文件定义、被其他文件引用（如 `frontier`、`seam`、`tracer bullet`、`deletion test`）。定义处用「中文（English）」，如「曳光弹（tracer bullet）」；被其他文件以英文裸引用的词，正文统一沿用英文 token；引用处跟随定义源头，不另造译名；同一原语全项目只有一个 token，token 选择一律以 `zh-CN/PRIMITIVES.md`（原语登记处）为准，新原语先登记再翻译。完整规则见 `.github/copilot-instructions.md` 翻译规范第 3 条。
 
 6. **翻译文件之间的相对链接处理**：
    - 如果链接指向的目标文件**已经有对应的中文翻译版本**，链接应指向翻译版本的相对路径。
