@@ -36,11 +36,11 @@ zh-CN/
 
 | 分类 | 状态 | 说明 |
 | --- | --- | --- |
-| README.md（仓库总览） | 待翻译 | 尚未开始 |
+| README.md（仓库总览） | 已完成 | 已翻译为 [`README.repo.md`](./README.repo.md)（因 `zh-CN/README.md` 被本追踪文档占用，仓库总览的翻译使用此文件名） |
 | skills/engineering/* | 已完成 | 已全部翻译（`README.md` 及全部 18 个技能：`ask-matt`、`code-review`、`codebase-design`、`diagnosing-bugs`、`domain-modeling`、`grill-with-docs`、`implement`、`improve-codebase-architecture`、`prototype`、`research`、`resolving-merge-conflicts`、`setup-matt-pocock-skills`、`tdd`、`to-spec`、`to-tickets`、`triage`、`wayfinder`、`wizard`），各 `SKILL.md` 均已添加 `commit_version` |
 | skills/productivity/* | 已完成 | 已全部翻译（`README.md`、`grill-me`、`grilling`、`handoff`、`teach`、`to-questionnaire`、`wait-what`、`writing-for-agents`），各 `SKILL.md` 均已添加 `commit_version` |
 | skills/misc/* | 已完成 | 已全部翻译（`README.md`、`git-guardrails-claude-code`、`migrate-to-shoehorn`、`scaffold-exercises`、`setup-pre-commit`），各 `SKILL.md` 均已添加 `commit_version` |
 | skills/in-progress/* | 已完成 | 已全部翻译（`README.md`、`claude-handoff`、`loop-me`、`setup-ts-deep-modules`、`writing-beats`、`writing-fragments`、`writing-shape`），各 `SKILL.md` 均已添加 `commit_version` |
-| skills/deprecated/* | 待翻译 | 尚未开始 |
+| skills/deprecated/* | 已完成 | 已翻译（仅 `README.md`；该桶当前为空） |
 
 > 本清单会随着翻译进度持续更新。
