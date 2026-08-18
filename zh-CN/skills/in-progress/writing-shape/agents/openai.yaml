@@ -1,0 +1,5 @@
+interface:
+  display_name: "Writing Shape"
+  short_description: "把原始素材塑形成文章"
+policy:
+  allow_implicit_invocation: false
