@@ -10,6 +10,7 @@
 zh-CN/
 ├── README.md                  # 本文件
 ├── PRIMITIVES.md              # 全项目原语（leading words）登记处——翻译前先查这份表
+├── DEPENDENCIES.md            # 技能依赖图（分层版）——从主链路视角切入，逐层展开
 ├── skills/
 │   ├── engineering/
 │   │   ├── ask-matt/
