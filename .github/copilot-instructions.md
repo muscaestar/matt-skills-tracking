@@ -18,10 +18,17 @@
    - **被其他文件以英文裸引用的词**（如 wayfinder/to-tickets 引用 grilling 的 `frontier`）：定义后正文统一沿用英文 token，保证引用方能连回定义源头。
    - **引用处**：跟随定义源头的 token 选择，不另造译名。
    - **同一原语全项目只有一个 token**：token 选择一律以 [`zh-CN/PRIMITIVES.md`](../zh-CN/PRIMITIVES.md)（全项目原语登记处）为准——翻译前先查表；表中没有的新原语先登记再翻译；表中未收录的普通术语才 grep `zh-CN/` 检查既有用法。既有用法与登记表矛盾时，以定义源头文件为准并同步其余文件。
-4. 每个 `SKILL.md` 翻译文件**必须**在 frontmatter 内注明对应英文原文件最近一次改动的完整 commit SHA，key 名 `commit_version`（多出的字段会被 skill loader 忽略，不影响解析）。源文件路径由 `zh-CN/` 与 `skills/` 的一一对应关系推导，无需记录；`README.md`、`openai.yaml` 等其他文件不记录。SHA 取 `git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。完整规范见 `zh-CN/README.md`。
-5. 翻译完成后，务必同步更新 `zh-CN/README.md` 中的翻译状态清单。
-6. 全新增加的 skill 文件 → 需要完整翻译；只有局部文字改动的 → 只需要更新对应改动的段落，保持已有翻译风格、术语一致，不要整篇重翻。
-7. 纯格式/链接更新等无实质内容变化的改动，可以跳过或简单处理。
+4. **示例与模板（examples / templates）保留英文原文 + 配中文译文。** 文档中的示例、模板、样板文件（如 triage 的 agent 简报、`.out-of-scope/` 文件、needs-info 评论模板、免责声明等）会被实际发布到 issue 跟踪器或写入项目文档，agent 和外部读者按英文消费，因此保留英文原文。每个保留英文的示例/模板**必须满足**：
+   - 前置一行中文说明（blockquote 或正文行），解释这是实际操作产物、按仓库工作语言保留英文；
+   - 正文逐段/逐字段配中文译文（以括号 `（...）` 注释、行内 `# 注释` 或紧跟的译文段落呈现），确保中文读者无需阅读原文即可理解；
+   - 散文中引用的英文短语/对话话术（如 "Show me anything that needs my attention"）同样保留英文 + 紧跟中文译文括号。
+   - 参考实现：`zh-CN/skills/engineering/triage/`（AGENT-BRIEF.md、OUT-OF-SCOPE.md、SKILL.md）。
+5. 每个 `SKILL.md` 翻译文件**必须**在 frontmatter 内注明对应英文原文件最近一次改动的完整 commit SHA，key 名 `commit_version`（多出的字段会被 skill loader 忽略，不影响解析）。源文件路径由 `zh-CN/` 与 `skills/` 的一一对应关系推导，无需记录；`README.md`、`openai.yaml` 等其他文件不记录。SHA 取 `git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。完整规范见 `zh-CN/README.md`。
+6. 翻译完成后，务必同步更新 `zh-CN/README.md` 中的翻译状态清单。
+7. 全新增加的 skill 文件 → 需要完整翻译；只有局部文字改动的 → 只需要更新对应改动的段落，保持已有翻译风格、术语一致，不要整篇重翻。
+8. 纯格式/链接更新等无实质内容变化的改动，可以跳过或简单处理。
+
+> **维护要求**：新增或修改翻译约定时，必须同步挂接（或以引用方式挂接）到全部四处：`zh-CN/README.md`（翻译原则）、本文件（翻译规范）、`.github/agents/zh-cn-translator.md`、`.pi/prompts/zh-cn-translator.md`。后两者是实际执行翻译的 agent/prompt，它们只读自己的 prompt 文件——约定只写在一处等于没写。
 
 # 上游同步机制（三阶段流程）
 

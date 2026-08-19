@@ -39,6 +39,7 @@ zh-CN/
    - 获取 SHA：`git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。
    - 示例：`commit_version: 50777fcc0982d5867997a75a1e0731b9daac94eb`
 4. **翻译状态标记**：翻译进度会在下方的“翻译状态清单”中维护，直到有更完善的自动化工具（如 GitHub Actions + Issue 跟踪）接管。
+5. **约定同步挂接（维护要求）**：新增或修改翻译约定时，必须同步挂接（或以引用方式挂接）到全部四处：本文件（翻译原则）、`.github/copilot-instructions.md`（翻译规范）、`.github/agents/zh-cn-translator.md`、`.pi/prompts/zh-cn-translator.md`。后两者是实际执行翻译的 agent/prompt，它们只读自己的 prompt 文件——约定只写在一处等于没写。
 
 ## 翻译状态清单
 
