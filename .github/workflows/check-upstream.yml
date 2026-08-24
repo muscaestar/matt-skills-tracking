@@ -49,41 +49,107 @@ jobs:
           COUNT: ${{ steps.check.outputs.count }}
           LATEST_SHA: ${{ steps.check.outputs.latest_sha }}
         run: |
-          # Collect commits
+          # Collect commits, classifying each as merge / format / substantive.
+          # Format-only = every touched file is identical after stripping all
+          # whitespace and punctuation from both sides of the diff (catches
+          # repo-wide cleanups like em-dash removal). New/deleted files always
+          # count as substantive.
           COMMITS_LIST=""
+          SUB_COUNT=0
+          FMT_COUNT=0
+          MERGE_COUNT=0
+          SUB_FILES_FILE=$(mktemp)
+          FMT_FILES_FILE=$(mktemp)
+          : > "$SUB_FILES_FILE"
+          : > "$FMT_FILES_FILE"
           while IFS= read -r line; do
+            [ -z "$line" ] && continue
             SHA=$(echo "$line" | awk '{print $1}')
             MSG=$(git log -1 --format="%s" "$SHA" 2>/dev/null || echo "$line")
             AUTHOR=$(git log -1 --format="%an" "$SHA" 2>/dev/null || echo "unknown")
             DATE=$(git log -1 --format="%as" "$SHA" 2>/dev/null || echo "unknown")
             FULL_SHA=$(git rev-parse "$SHA" 2>/dev/null || echo "$SHA")
-            COMMITS_LIST="${COMMITS_LIST}- [\`${SHA}\`](https://github.com/mattpocock/skills/commit/${FULL_SHA}) ${MSG} (@${AUTHOR}, ${DATE})\n"
+
+            PARENTS=$(git cat-file -p "$SHA" 2>/dev/null | grep -c '^parent ' || echo 0)
+            CTYPE=""
+            if [ "$PARENTS" -gt 1 ]; then
+              MERGE_COUNT=$((MERGE_COUNT + 1))
+            else
+              FORMAT_ONLY=1
+              while IFS= read -r f; do
+                [ -z "$f" ] && continue
+                if git cat-file -e "${SHA}^:${f}" 2>/dev/null; then
+                  OLD=$(git show "${SHA}^:${f}" 2>/dev/null | tr -d '[:space:][:punct:]')
+                else
+                  OLD=""
+                fi
+                if git cat-file -e "${SHA}:${f}" 2>/dev/null; then
+                  NEW=$(git show "${SHA}:${f}" 2>/dev/null | tr -d '[:space:][:punct:]')
+                else
+                  NEW=""
+                fi
+                if [ "$OLD" != "$NEW" ]; then
+                  FORMAT_ONLY=0
+                  break
+                fi
+              done < <(git diff-tree --no-commit-id --name-only -r "$SHA" 2>/dev/null)
+              if [ "$FORMAT_ONLY" -eq 1 ]; then
+                CTYPE="format"
+                FMT_COUNT=$((FMT_COUNT + 1))
+              else
+                CTYPE="substantive"
+                SUB_COUNT=$((SUB_COUNT + 1))
+              fi
+              if [ "$CTYPE" = "format" ]; then
+                git diff-tree --no-commit-id --name-only -r "$SHA" >> "$FMT_FILES_FILE"
+              else
+                git diff-tree --no-commit-id --name-only -r "$SHA" >> "$SUB_FILES_FILE"
+              fi
+            fi
+
+            TAG=""
+            case "$CTYPE" in
+              format) TAG=" 🔧格式" ;;
+              substantive) TAG=" ✍️实质" ;;
+            esac
+            COMMITS_LIST="${COMMITS_LIST}- [\`${SHA}\`](https://github.com/mattpocock/skills/commit/${FULL_SHA})${TAG} ${MSG} (@${AUTHOR}, ${DATE})\n"
           done < <(git log HEAD..upstream/main --oneline)
 
-          # Collect all changed files
-          ALL_FILES=$(git diff --name-only HEAD upstream/main | sort)
+          # A file touched by both a format-only and a substantive commit needs
+          # translation attention, so subtract substantive files from the
+          # format list.
+          SUB_FILES=$(sort -u "$SUB_FILES_FILE")
+          FMT_FILES=$(comm -23 <(sort -u "$FMT_FILES_FILE") <(echo "$SUB_FILES") || true)
+          rm -f "$SUB_FILES_FILE" "$FMT_FILES_FILE"
 
-          # Filter skills/ files
-          SKILLS_FILES=$(echo "$ALL_FILES" | grep '^skills/' || true)
+          # Split each group into skills/ files and other files
+          SUB_SKILLS=$(echo "$SUB_FILES" | grep '^skills/' || true)
+          SUB_OTHER=$(echo "$SUB_FILES" | grep -v '^skills/' || true)
+          FMT_SKILLS=$(echo "$FMT_FILES" | grep '^skills/' || true)
+          FMT_OTHER=$(echo "$FMT_FILES" | grep -v '^skills/' || true)
 
-          # Write multi-line outputs using heredoc
-          {
-            echo "commits_list<<EOF_COMMITS"
-            printf "%b" "$COMMITS_LIST"
-            echo "EOF_COMMITS"
-          } >> "$GITHUB_OUTPUT"
+          # Union of every file changed by any commit (for the full list)
+          ALL_FILES=$(printf '%s\n%s\n' "$SUB_FILES" "$FMT_FILES" | grep -v '^$' | sort -u || true)
 
-          {
-            echo "all_files<<EOF_ALL"
-            echo "$ALL_FILES"
-            echo "EOF_ALL"
-          } >> "$GITHUB_OUTPUT"
+          echo "sub_count=$SUB_COUNT" >> "$GITHUB_OUTPUT"
+          echo "fmt_count=$FMT_COUNT" >> "$GITHUB_OUTPUT"
+          echo "merge_count=$MERGE_COUNT" >> "$GITHUB_OUTPUT"
 
-          {
-            echo "skills_files<<EOF_SKILLS"
-            echo "$SKILLS_FILES"
-            echo "EOF_SKILLS"
-          } >> "$GITHUB_OUTPUT"
+          write_output() {
+            local name="$1"
+            local value="$2"
+            {
+              echo "${name}<<EOF_OUT"
+              echo "$value"
+              echo "EOF_OUT"
+            } >> "$GITHUB_OUTPUT"
+          }
+          write_output "commits_list" "$COMMITS_LIST"
+          write_output "sub_skills" "$SUB_SKILLS"
+          write_output "sub_other" "$SUB_OTHER"
+          write_output "fmt_skills" "$FMT_SKILLS"
+          write_output "fmt_other" "$FMT_OTHER"
+          write_output "all_files" "$ALL_FILES"
 
       - name: Ensure upstream-sync label exists
         if: steps.check.outputs.no_new_commits == 'false'
@@ -126,32 +192,54 @@ jobs:
           COUNT: ${{ steps.check.outputs.count }}
           LATEST_SHA: ${{ steps.check.outputs.latest_sha }}
           COMMITS_LIST: ${{ steps.collect.outputs.commits_list }}
+          SUB_COUNT: ${{ steps.collect.outputs.sub_count }}
+          FMT_COUNT: ${{ steps.collect.outputs.fmt_count }}
+          MERGE_COUNT: ${{ steps.collect.outputs.merge_count }}
+          SUB_SKILLS: ${{ steps.collect.outputs.sub_skills }}
+          SUB_OTHER: ${{ steps.collect.outputs.sub_other }}
+          FMT_SKILLS: ${{ steps.collect.outputs.fmt_skills }}
+          FMT_OTHER: ${{ steps.collect.outputs.fmt_other }}
           ALL_FILES: ${{ steps.collect.outputs.all_files }}
-          SKILLS_FILES: ${{ steps.collect.outputs.skills_files }}
         run: |
-          if [ -z "$SKILLS_FILES" ]; then
-            SKILLS_SECTION="（本次上游更新未涉及 \`skills/\` 目录下的文件）"
-          else
-            SKILLS_SECTION=$(echo "$SKILLS_FILES" | sed 's/^/- /')
-          fi
+          file_section() {
+            # $1 = file list (one per line, may be empty), $2 = empty placeholder text
+            if [ -z "$(printf '%s' "$1" | tr -d '[:space:]')" ]; then
+              printf '%s' "$2"
+            else
+              printf '%s\n' "$1" | sed 's/^/- /'
+            fi
+          }
 
-          ALL_FILES_SECTION=$(echo "$ALL_FILES" | sed 's/^/- /')
+          SUB_SKILLS_SECTION=$(file_section "$SUB_SKILLS" '（无）')
+          SUB_OTHER_SECTION=$(file_section "$SUB_OTHER" '（无）')
+          FMT_SKILLS_SECTION=$(file_section "$FMT_SKILLS" '（无）')
+          FMT_OTHER_SECTION=$(file_section "$FMT_OTHER" '（无）')
+          ALL_FILES_SECTION=$(file_section "$ALL_FILES" '（无）')
 
           ISSUE_BODY_FILE=$(mktemp /tmp/check-upstream-issue-body-XXXXXX.md)
           REPO="${{ github.repository }}"
 
           {
-            printf '上游仓库 [mattpocock/skills](https://github.com/mattpocock/skills) 的 `main` 分支发现 **%s** 个新 commit，当前仓库尚未同步。\n\n' "$COUNT"
+            printf '上游仓库 [mattpocock/skills](https://github.com/mattpocock/skills) 的 `main` 分支发现 **%s** 个新 commit（实质性 %s / 格式性 %s / merge %s），当前仓库尚未同步。\n\n' "$COUNT" "$SUB_COUNT" "$FMT_COUNT" "$MERGE_COUNT"
             printf '## 新 commit 列表\n\n'
             printf '%b\n' "$COMMITS_LIST"
-            printf '## 涉及的 skill 文件（`skills/` 目录）\n\n'
-            printf '%s\n\n' "$SKILLS_SECTION"
+            printf '## ✍️ 实质性改动（需要跟翻）\n\n'
+            printf '### 涉及的 skill 文件（`skills/` 目录）\n\n'
+            printf '%s\n\n' "$SUB_SKILLS_SECTION"
+            printf '### 其他文件\n\n'
+            printf '%s\n\n' "$SUB_OTHER_SECTION"
+            printf '## 🔧 格式/标点改动（通常无需跟翻）\n\n'
+            printf '仅空白与标点变化的 commit 触碰过的文件；与上方实质性改动重叠的文件已归入上方。\n\n'
+            printf '### `skills/` 目录\n\n'
+            printf '%s\n\n' "$FMT_SKILLS_SECTION"
+            printf '### 其他文件\n\n'
+            printf '%s\n\n' "$FMT_OTHER_SECTION"
             printf '<details>\n<summary>全部改动文件清单（点击展开）</summary>\n\n'
             printf '%s\n\n' "$ALL_FILES_SECTION"
             printf '</details>\n\n'
             printf '## 后续步骤\n\n'
             printf '1. **同步上游改动**：通过 GitHub 的 "Sync fork" 功能或手动 `git fetch upstream && git merge upstream/main` 将上游最新改动合并到本仓库 `main` 分支。\n'
-            printf '2. **检查中文翻译**：对照上方涉及的 skill 文件，检查 `zh-CN/` 目录下对应翻译文件是否需要更新（新增或修改）。\n'
+            printf '2. **检查中文翻译**：对照上方「实质性改动」涉及的 skill 文件，检查 `zh-CN/` 目录下对应翻译文件是否需要更新（新增或修改）。「格式/标点改动」一节通常只需快速浏览确认。\n'
             printf '3. **更新翻译状态**：完成翻译更新后，记得同步更新 `zh-CN/README.md` 中的翻译状态清单，填写对应的 commit SHA 与翻译进度。\n\n'
             printf -- '---\n\n'
             printf '*此 Issue 由 [check-upstream workflow](https://github.com/%s/actions/workflows/check-upstream.yml) 自动创建。*\n' "$REPO"
