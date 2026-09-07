@@ -14,9 +14,9 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 - **评论 issue**：`glab issue note <number> --message "..."`。GitLab 把评论称为 "notes"。
 - **添加 / 移除标签**：`glab issue update <number> --label "..."` / `--unlabel "..."`。多个标签可以用逗号分隔或重复该 flag。
 - **关闭**：`glab issue close <number>`。`glab issue close` 不接受关闭评论，所以先用 `glab issue note <number> --message "..."` 发布说明，然后再关闭。
-- **Merge requests**：GitLab 把 PR 称为 "merge requests"。使用 `glab mr create`、`glab mr view`、`glab mr note` 等——与 `gh pr ...` 形态相同，只是用 `mr` 代替 `pr`，用 `note`/`--message` 代替 `comment`/`--body`。
+- **Merge requests**：GitLab 把 PR 称为 "merge requests"。使用 `glab mr create`、`glab mr view`、`glab mr note` 等，与 `gh pr ...` 形态相同，只是用 `mr` 代替 `pr`，用 `note`/`--message` 代替 `comment`/`--body`。
 
-从 `git remote -v` 推断仓库——在 clone 内运行时 `glab` 会自动完成。
+从 `git remote -v` 推断仓库；在 clone 内运行时 `glab` 会自动完成。
 
 ## 将 Merge Request 作为 triage 来源
 
@@ -44,7 +44,7 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 
 - **Map**：一个带 `wayfinder:map` 标签的 issue，正文为 Notes / Decisions-so-far / Fog。`glab issue create --label wayfinder:map`。（在拥有原生 epic 的 GitLab 套餐上，map 也可以由 epic 承载；带标签的 issue 在所有套餐上都可用。）
 - **Child ticket**：描述顶部写有 `Part of #<map>`、标签为 `wayfinder:<type>`（`research`/`prototype`/`grilling`/`task`）的 issue。被认领后，ticket 指派给主导的开发者。
-- **阻塞**：GitLab 的**原生阻塞链接**——规范的、UI 可见的表示。通过以 note 形式发布的 `/blocked_by #<n>` 快速操作添加（`glab issue note <child> --message "/blocked_by #<blocker>"`）。原生阻塞链接是 Premium/Ultimate 功能；在免费套餐（或不可用的地方）退回为在描述顶部写一行 `Blocked by: #<n>, #<n>`。当所有阻塞方都关闭时，ticket 即解除阻塞。
-- **Frontier 查询**：`glab issue list -F json`，限定在 map 的 child 范围内，丢弃任何有未关闭阻塞方——指向未关闭 issue 的原生 `blocked_by` 链接（`glab api projects/:id/issues/:iid/links`），或 `Blocked by` 行中有未关闭 issue——或已有指派人的；按 map 顺序取第一个。
-- **认领**：`glab issue update <n> --assignee @me`——会话的第一次写入。
+- **阻塞**：GitLab 的**原生阻塞链接**，即规范的、UI 可见的表示。通过以 note 形式发布的 `/blocked_by #<n>` 快速操作添加（`glab issue note <child> --message "/blocked_by #<blocker>"`）。原生阻塞链接是 Premium/Ultimate 功能；在免费套餐（或不可用的地方）退回为在描述顶部写一行 `Blocked by: #<n>, #<n>`。当所有阻塞方都关闭时，ticket 即解除阻塞。
+- **Frontier 查询**：`glab issue list -F json`，限定在 map 的 child 范围内，丢弃任何有未关闭阻塞方的：指向未关闭 issue 的原生 `blocked_by` 链接（`glab api projects/:id/issues/:iid/links`），或 `Blocked by` 行中有未关闭 issue，或已有指派人的；按 map 顺序取第一个。
+- **认领**：`glab issue update <n> --assignee @me`，会话的第一次写入。
 - **解决**：`glab issue note <n> --message "<answer>"`，然后 `glab issue close <n>`，再向 map 的 Decisions-so-far 追加上下文指针（gist + 链接）。
