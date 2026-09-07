@@ -39,7 +39,12 @@ zh-CN/
    - 获取 SHA：`git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。
    - 示例：`commit_version: 50777fcc0982d5867997a75a1e0731b9daac94eb`
 4. **翻译状态标记**：翻译进度会在下方的“翻译状态清单”中维护，直到有更完善的自动化工具（如 GitHub Actions + Issue 跟踪）接管。
-5. **约定同步挂接（维护要求）**：新增或修改翻译约定时，必须同步挂接（或以引用方式挂接）到全部四处：本文件（翻译原则）、`.github/copilot-instructions.md`（翻译规范）、`.github/agents/zh-cn-translator.md`、`.pi/prompts/zh-cn-translator.md`。后两者是实际执行翻译的 agent/prompt，它们只读自己的 prompt 文件——约定只写在一处等于没写。
+5. **元文档同步（必须）**：`DEPENDENCIES.md`（技能依赖图）和 `PRIMITIVES.md`（原语登记处）描述的是整个体系，上游每**新增、删除或实质改动**一个 skill，都要检查这两篇是否需要更新——
+   - **新原语**（被跨文件引用的词）→ 登记进 `PRIMITIVES.md`；
+   - **skill 的增删 / 在依赖图中的位置变化**（加入主链路、新的调用/被调用关系、换桶）→ 更新 `DEPENDENCIES.md` 对应层/族。
+   - 只在原文件内部修补、不影响词汇或依赖关系的改动，不需要动这两篇。
+   - 判断拿不准时，宁可加一笔，也别让体系地图和词汇表落后于实际 skill 集合。
+6. **约定同步挂接（维护要求）**：新增或修改翻译约定时，必须同步挂接（或以引用方式挂接）到全部四处：本文件（翻译原则）、`.github/copilot-instructions.md`（翻译规范）、`.github/agents/zh-cn-translator.md`、`.pi/prompts/zh-cn-translator.md`。后两者是实际执行翻译的 agent/prompt，它们只读自己的 prompt 文件——约定只写在一处等于没写。
 
 ## 翻译状态清单
 

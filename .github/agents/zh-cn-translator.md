@@ -46,8 +46,9 @@ user-invocable: true
 
 1. 明确本次任务范围涉及的具体文件（严格限定在 problem statement 给出的文件列表内，不要自行扩展翻译范围）。
 2. 逐个文件翻译，创建对应的 `zh-CN/` 镜像文件。
-3. 更新 `zh-CN/README.md` 翻译状态清单。
-4. 提交并开 PR，PR 描述中附上翻译内容的预览或摘要，方便人工 review。
+3. 检查本次涉及的 skill 是否有**新增/删除/实质改动**：有新原语就登记进 `zh-CN/PRIMITIVES.md`；skill 增删或依赖关系变化就更新 `zh-CN/DEPENDENCIES.md`。
+4. 更新 `zh-CN/README.md` 翻译状态清单。
+5. 提交并开 PR，PR 描述中附上翻译内容的预览或摘要，方便人工 review。
 
 # 禁止事项
 

@@ -27,6 +27,7 @@
 6. 翻译完成后，务必同步更新 `zh-CN/README.md` 中的翻译状态清单。
 7. 全新增加的 skill 文件 → 需要完整翻译；只有局部文字改动的 → 只需要更新对应改动的段落，保持已有翻译风格、术语一致，不要整篇重翻。
 8. 纯格式/链接更新等无实质内容变化的改动，可以跳过或简单处理。
+9. **元文档同步**：上游每新增、删除或实质改动一个 skill，检查 `zh-CN/DEPENDENCIES.md`（依赖图）和 `zh-CN/PRIMITIVES.md`（原语登记处）是否要更新——新原语登记进 PRIMITIVES；skill 增删或依赖关系变化更新 DEPENDENCIES。仅文件内部修补、不动词汇/依赖的改动不必动这两篇。
 
 > **维护要求**：新增或修改翻译约定时，必须同步挂接（或以引用方式挂接）到全部四处：`zh-CN/README.md`（翻译原则）、本文件（翻译规范）、`.github/agents/zh-cn-translator.md`、`.pi/prompts/zh-cn-translator.md`。后两者是实际执行翻译的 agent/prompt，它们只读自己的 prompt 文件——约定只写在一处等于没写。
 
