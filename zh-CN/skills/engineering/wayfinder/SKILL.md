@@ -2,7 +2,7 @@
 name: wayfinder
 description: 把一大块工作（超过一个 agent 会话能装下的）规划为 issue 跟踪器上一张由决策 ticket 构成的共享地图，然后一次解决一个，直到通往目的地的路清晰可见。
 disable-model-invocation: true
-commit_version: 6a34259e99bc5fed4f8fe5da61c273dad14edf67
+commit_version: 321658273cb1d20b76026717d027d505790106d4
 ---
 
 一个模糊的想法出现了，太大，一个 agent 会话装不下，而且笼罩在迷雾中：从这里到**目的地**的路还看不见。Wayfinding 是关于找到那条路，而不是朝目的地猛冲。本技能把这条路绘制成仓库 issue 跟踪器上的一张**共享地图**，然后一次一个地处理它的**决策 ticket**（解决结果是一个决定的问题，而不是要执行的构建切片），直到路线清晰。
