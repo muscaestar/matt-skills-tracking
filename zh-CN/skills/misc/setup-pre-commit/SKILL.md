@@ -1,7 +1,7 @@
 ---
 name: setup-pre-commit
 description: 在当前仓库中设置 Husky pre-commit hooks，包含 lint-staged（Prettier）、类型检查和测试。当用户想添加 pre-commit hooks、设置 Husky、配置 lint-staged，或添加提交时的格式化/类型检查/测试时使用。
-commit_version: 62f43a18177be6ec82da242e59ffbc490a4c22ea
+commit_version: 321658273cb1d20b76026717d027d505790106d4
 ---
 
 # 设置 Pre-Commit Hooks
@@ -83,7 +83,7 @@ npm run test
 
 暂存所有改动/创建的文件，用以下消息提交：`Add pre-commit hooks (husky + lint-staged + prettier)`
 
-这次提交会经过新的 pre-commit hooks——是验证一切正常的好冒烟测试。
+这次提交会经过新的 pre-commit hooks：这是验证一切正常的好冒烟测试。
 
 ## 备注
 

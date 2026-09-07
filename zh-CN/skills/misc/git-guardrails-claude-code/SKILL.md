@@ -1,7 +1,7 @@
 ---
 name: git-guardrails-claude-code
 description: 设置 Claude Code hooks，在危险的 git 命令（push、reset --hard、clean、branch -D 等）执行前拦截它们。当用户想防止破坏性 git 操作、添加 git 安全 hook，或在 Claude Code 中阻止 git push/reset 时使用。
-commit_version: 62f43a18177be6ec82da242e59ffbc490a4c22ea
+commit_version: 321658273cb1d20b76026717d027d505790106d4
 ---
 
 # 设置 Git 护栏
@@ -79,7 +79,7 @@ commit_version: 62f43a18177be6ec82da242e59ffbc490a4c22ea
 }
 ```
 
-如果 settings 文件已存在，把 hook 合并进现有的 `hooks.PreToolUse` 数组——不要覆盖其他设置。
+如果 settings 文件已存在，把 hook 合并进现有的 `hooks.PreToolUse` 数组。不要覆盖其他设置。
 
 ### 4. 询问定制需求
 
