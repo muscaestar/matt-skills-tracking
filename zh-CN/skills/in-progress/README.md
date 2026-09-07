@@ -12,7 +12,7 @@ Beta。这些技能是故意公开的：试用它们，告诉我哪里会坏。�
 npx skills@latest add mattpocock/skills --skill=<name>
 ```
 
-- **[loop-me](./loop-me/SKILL.md)**：跨多个会话把自己 grill 成可实现的工作流规格，以当前目录作为有状态的工作区。用户调用。
+- **[loop-me](./loop-me/SKILL.md)**：跨多个会话把自己追问成可实现的工作流规格，以当前目录作为有状态的工作区。用户调用。
 - **[writing-beats](./writing-beats/SKILL.md)**：把文章塑造成一段由节拍构成的旅程，自选冒险风格。挑选一个起始节拍，只写那一拍，然后转向下一拍，直到文章抵达自然的终点。
 - **[writing-fragments](./writing-fragments/SKILL.md)**：一场从你身上开采碎片（异构的写作小块）的 grilling 会话，把它们追加到单个文档中，作为未来文章的原始素材。
 - **[writing-shape](./writing-shape/SKILL.md)**：拿一个装满原始素材的 markdown 文件，逐段把它塑形成一篇文章，每一步都就格式选择展开争论。
