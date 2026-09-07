@@ -1,3 +1,7 @@
+---
+commit_version: 321658273cb1d20b76026717d027d505790106d4
+---
+
 # Issue 跟踪器：本地 Markdown
 
 本仓库的 issue 和规格以 markdown 文件的形式存放在 `.scratch/` 中。

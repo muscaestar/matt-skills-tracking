@@ -34,7 +34,7 @@ zh-CN/
      - 正文逐段/逐字段配中文译文（以括号 `（...）` 注释、行内 `# 注释` 或紧跟的译文段落呈现），确保中文读者无需阅读原文即可理解。
      - 散文中引用的英文短语/对话话术（如 "Show me anything that needs my attention"）同样保留英文 + 紧跟中文译文括号。
      - 参考实现：`zh-CN/skills/engineering/triage/AGENT-BRIEF.md`、`OUT-OF-SCOPE.md`、`SKILL.md`。
-3. **文件级追踪（必须）**：每个 `SKILL.md` 翻译文件必须在 frontmatter 内注明对应英文原文件最近一次改动的 commit **完整** SHA，key 名 `commit_version`，方便判断该翻译是否已经过期、是否需要跟随上游更新重新翻译。源文件路径无需记录（`zh-CN/` 与 `skills/` 目录一一对应，可由翻译文件自身路径去掉 `zh-CN/` 前缀推导）；`README.md`、`openai.yaml` 等其他文件不记录。
+3. **文件级追踪（必须）**：每个英文源文件对应的翻译文件必须在 frontmatter 内注明对应英文原文件最近一次改动的 commit **完整** SHA，key 名 `commit_version`，方便判断该翻译是否已经过期、是否需要跟随上游更新重新翻译。源文件路径无需记录（`zh-CN/` 与 `skills/` 目录一一对应，可由翻译文件自身路径去掉 `zh-CN/` 前缀推导）。无 frontmatter 的文件（附属文档、各桶 README）在文件头部新建仅含 `commit_version` 的 frontmatter；zh-CN 独有文件（本追踪文档 `zh-CN/README.md`、`README.repo.md` 及无英文源对应的文件）不记录。
    - 写法：在 frontmatter 现有字段之后、结束 `---` 之前加一行 `commit_version: <full-sha>`（frontmatter 多出的字段会被 skill loader 忽略，不影响解析）。
    - 获取 SHA：`git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。
    - 示例：`commit_version: 50777fcc0982d5867997a75a1e0731b9daac94eb`

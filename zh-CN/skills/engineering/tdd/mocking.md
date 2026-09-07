@@ -1,3 +1,7 @@
+---
+commit_version: 62f43a18177be6ec82da242e59ffbc490a4c22ea
+---
+
 # 什么时候该 Mock
 
 只在**系统边界**上 mock：

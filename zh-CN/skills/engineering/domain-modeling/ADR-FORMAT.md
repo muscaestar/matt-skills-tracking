@@ -1,3 +1,7 @@
+---
+commit_version: 321658273cb1d20b76026717d027d505790106d4
+---
+
 # ADR 格式
 
 ADR 存放在 `docs/adr/` 中，使用连续编号：`0001-slug.md`、`0002-slug.md`，依此类推。

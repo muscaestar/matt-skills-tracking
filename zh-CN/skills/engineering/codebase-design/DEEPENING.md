@@ -1,3 +1,7 @@
+---
+commit_version: 321658273cb1d20b76026717d027d505790106d4
+---
+
 # 深化
 
 如何在给定依赖的情况下，安全地深化一簇浅模块。假定你已掌握 [SKILL.md](SKILL.md) 中的词汇——**module**、**interface**、**seam**、**adapter**。

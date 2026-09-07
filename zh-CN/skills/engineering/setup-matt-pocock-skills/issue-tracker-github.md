@@ -1,3 +1,7 @@
+---
+commit_version: 321658273cb1d20b76026717d027d505790106d4
+---
+
 # Issue 跟踪器：GitHub
 
 本仓库的 issue 和规格以 GitHub issue 的形式存放。所有操作使用 `gh` CLI。

@@ -23,7 +23,7 @@
    - 正文逐段/逐字段配中文译文（以括号 `（...）` 注释、行内 `# 注释` 或紧跟的译文段落呈现），确保中文读者无需阅读原文即可理解；
    - 散文中引用的英文短语/对话话术（如 "Show me anything that needs my attention"）同样保留英文 + 紧跟中文译文括号。
    - 参考实现：`zh-CN/skills/engineering/triage/`（AGENT-BRIEF.md、OUT-OF-SCOPE.md、SKILL.md）。
-5. 每个 `SKILL.md` 翻译文件**必须**在 frontmatter 内注明对应英文原文件最近一次改动的完整 commit SHA，key 名 `commit_version`（多出的字段会被 skill loader 忽略，不影响解析）。源文件路径由 `zh-CN/` 与 `skills/` 的一一对应关系推导，无需记录；`README.md`、`openai.yaml` 等其他文件不记录。SHA 取 `git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。完整规范见 `zh-CN/README.md`。
+5. 每个英文源文件对应的翻译文件**必须**在 frontmatter 内注明对应英文原文件最近一次改动的完整 commit SHA，key 名 `commit_version`（多出的字段会被 skill loader 忽略，不影响解析）。源文件路径由 `zh-CN/` 与 `skills/` 的一一对应关系推导，无需记录。无 frontmatter 的文件（附属文档、各桶 README）在文件头部新建仅含 `commit_version` 的 frontmatter；zh-CN 独有文件（`zh-CN/README.md`、`README.repo.md` 及无英文源对应的文件）不记录。SHA 取 `git log -1 --format=%H -- <源文件路径>`（`<源文件路径>` 即去掉 `zh-CN/` 前缀后的路径）。完整规范见 `zh-CN/README.md`。
 6. 翻译完成后，务必同步更新 `zh-CN/README.md` 中的翻译状态清单。
 7. 全新增加的 skill 文件 → 需要完整翻译；只有局部文字改动的 → 只需要更新对应改动的段落，保持已有翻译风格、术语一致，不要整篇重翻。
 8. 纯格式/链接更新等无实质内容变化的改动，可以跳过或简单处理。

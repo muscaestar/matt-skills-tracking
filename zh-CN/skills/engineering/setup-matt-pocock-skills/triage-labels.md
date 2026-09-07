@@ -1,3 +1,7 @@
+---
+commit_version: 179a14e721034706ffce7abae75b877c922b4ae8
+---
+
 # Triage 标签
 
 这些技能以五个标准 triage 角色的术语进行交流。本文件把这些角色映射到本仓库 issue 跟踪器中实际使用的标签字符串。
