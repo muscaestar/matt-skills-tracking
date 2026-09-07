@@ -1,17 +1,23 @@
 ---
 name: grilling
 description: 围绕一个计划、决策或想法对用户进行毫不留情的追问。在用户想要对其想法做压力测试，或使用了任何 "grill" 触发语时使用。
-commit_version: 86cba45f4244b2545112d13e77ba82eb2bfad325
+commit_version: 85f83d3fde1d3a90d5c9a657f6998c79a6c37308
 ---
 
 对用户进行毫不留情的追问，直到你们达成共同理解。把这映射为一棵**设计树（design tree）**：每个决策都会分支出挂在其下的更多决策。
 
 按**轮次（rounds）**处理这棵树。**frontier（前沿）**是指所有前置条件已经确定、你现在就能提问而无需猜测尚未听到的答案的决策。在一轮中问完整个 frontier：给每个问题编号，并给出你的推荐答案。然后等用户回答后再进入下一轮。
 
-每个问题的格式如下：
+一轮的格式如下：
 
 ```
 ❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+
+➡️ <your recommended answer>
+
+---
+
+❓ **Q2** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
 
 ➡️ <your recommended answer>
 ```
