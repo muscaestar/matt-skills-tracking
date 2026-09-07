@@ -88,6 +88,8 @@ graph LR
 | **自动化族** | `loop-me` | 把生活里的 loop 烤成 workflow 规格；借用 grilling 纪律 |
 | **元技能** | `ask-matt`（本图的路由版）、`writing-for-agents`（写技能/文档的参考） | 关于体系本身的技能 |
 
+> 另有两个 in-progress 桶的新成员，尚不稳定（STUB/设计稿），未列入上表：`implement-spec`（把规格当任务图并行实现，主链路 `implement` 的多 ticket 编排前身，借用 `frontier`/`context pointer`）、`retro`（会话后给编码 agent 环境提改进建议）。它们毕业后归入主链路/分族时再补图。
+
 ## 边角：独立工具
 
 与主链路无依赖，需要时单点取用，不值得画进任何图：
