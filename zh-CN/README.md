@@ -52,4 +52,6 @@ zh-CN/
 | skills/in-progress/* | 部分完成 | `README.md` 已翻译（含 `implement-spec`、`retro` 两个新条目，对应 `SKILL.md` 尚未翻译）；`claude-handoff`、`loop-me`、`setup-ts-deep-modules`、`writing-beats`、`writing-fragments`、`writing-shape` 已全部翻译，各 `SKILL.md` 均已添加 `commit_version` 追踪字段 |
 | skills/deprecated/* | 已完成 | 已翻译（仅 `README.md`；该桶当前为空） |
 
+> **2026-09-07 同步**：上游全仓库 em-dash 清理（`3216582`）后，将 31 个 SKILL.md 及全部附属文档/`README` 的译文逐项对齐（标点 + 少量句式重构 + grilling/to-questionnaire 等实质改动），并补齐全部 `commit_version`。当前 62 个有追踪的文件全部与上游同步（`scripts/compare-translations.sh`：0 STALE）。
+
 > 本清单会随着翻译进度持续更新。
