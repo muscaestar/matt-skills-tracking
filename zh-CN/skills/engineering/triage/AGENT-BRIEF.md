@@ -1,12 +1,12 @@
 ---
-commit_version: e00eadb4bb32c3d5a631ead1a5ed5d6a7c5f74e2
+commit_version: 321658273cb1d20b76026717d027d505790106d4
 ---
 
 # 撰写 Agent 简报
 
-Agent 简报是当 issue 或 PR 移动到 `ready-for-agent` 时发布在其上的一条结构化评论。它是 AFK agent 将据以工作的权威规格。原始正文和讨论是上下文——agent 简报才是契约。
+Agent 简报是当 issue 或 PR 移动到 `ready-for-agent` 时发布在其上的一条结构化评论。它是 AFK agent 将据以工作的权威规格。原始正文和讨论是上下文：agent 简报才是契约。
 
-简报陈述 **agent 应该做什么**，这延伸到两种来源：对于 issue，是从零构建改动；对于 PR，是*对现有 diff* 还剩什么要做——完成它、补上缺口、处理审查意见。无论哪种，原则相同；下面的 PR 示例展示了差异。
+简报陈述 **agent 应该做什么**，这延伸到两种来源：对于 issue，是从零构建改动；对于 PR，是*对现有 diff* 还剩什么要做：完成它、补上缺口、处理审查意见。无论哪种，原则相同；下面的 PR 示例展示了差异。
 
 ## 原则
 
@@ -16,7 +16,7 @@ Issue 可能在 `ready-for-agent` 状态停留数天或数周。代码库在此�
 
 - **要**描述接口、类型和行为契约
 - **要**点名 agent 应该查找或修改的具体类型、函数签名或配置形状
-- **不要**引用文件路径——它们会过时
+- **不要**引用文件路径：它们会过时
 - **不要**引用行号
 - **不要**假设当前的实现结构会保持不变
 
@@ -61,9 +61,9 @@ Be specific about edge cases and error conditions.
 （描述 agent 完成工作后应该发生什么。要具体说明边界情况和错误条件。）
 
 **Key interfaces:**    # 关键接口
-- `TypeName` — what needs to change and why    # 需要改什么、为什么
-- `functionName()` return type — what it currently returns vs what it should return    # 现在返回什么 vs 应该返回什么
-- Config shape — any new configuration options needed    # 需要哪些新配置项
+- `TypeName`: what needs to change and why    # 需要改什么、为什么
+- `functionName()` return type: what it currently returns vs what it should return    # 现在返回什么 vs 应该返回什么
+- Config shape: any new configuration options needed    # 需要哪些新配置项
 
 **Acceptance criteria:**    # 验收标准
 - [ ] Specific, testable criterion 1    # 具体、可测试的标准 1
@@ -103,7 +103,7 @@ and append "..." to indicate truncation.
 - The `SkillMetadata` type's `description` field — no type change needed,
   but the validation/processing logic that populates it needs to respect
   word boundaries
-（`SkillMetadata` 类型的 `description` 字段——类型不需要改，
+（`SkillMetadata` 类型的 `description` 字段：类型不需要改，
   但填充它的校验/处理逻辑需要尊重单词边界）
 - Any function that reads SKILL.md frontmatter and extracts the description
 （任何读取 SKILL.md frontmatter 并提取描述的函数）
@@ -151,7 +151,7 @@ triage 新 issue 时，应检查这些文件是否有匹配。）
 - Markdown file format in `.out-of-scope/` — each file should have a
   `# Concept Name` heading, a `**Decision:**` line, a `**Reason:**` line,
   and a `**Prior requests:**` list with issue links
-（`.out-of-scope/` 中的 Markdown 文件格式——每个文件应有一个
+（`.out-of-scope/` 中的 Markdown 文件格式：每个文件应有一个
   `# Concept Name` 标题、一行 `**Decision:**`、一行 `**Reason:**`，
   以及一个带 issue 链接的 `**Prior requests:**` 列表）
 - The triage workflow should read all `.out-of-scope/*.md` files early
@@ -201,7 +201,7 @@ no test coverage.
 With `--json`, all output — including errors — is well-formed JSON on stdout,
 and the command's exit codes are unchanged. The existing human-readable output
 is untouched when the flag is absent.
-（期望行为：使用 `--json` 时，所有输出——包括错误——都是 stdout 上
+（期望行为：使用 `--json` 时，所有输出（包括错误）都是 stdout 上
 格式良好的 JSON，且命令的退出码保持不变。
 不带该标志时，现有的人类可读输出完全不受影响。）
 
