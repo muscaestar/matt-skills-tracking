@@ -2,7 +2,7 @@
 name: setup-matt-pocock-skills
 description: 为 engineering 技能配置本仓库：设置它的 issue 跟踪器、triage 标签词汇表和领域文档布局。在首次使用其他 engineering 技能之前运行一次。
 disable-model-invocation: true
-commit_version: 5c89081d4bbeb3d039a42093653f90bb698d780e
+commit_version: 5b7cade4d68947f34dae71326a0ce89f09e22c9c
 ---
 
 # Setup Matt Pocock's Skills
@@ -11,7 +11,7 @@ commit_version: 5c89081d4bbeb3d039a42093653f90bb698d780e
 
 - **Issue 跟踪器**：issue 存放在哪里（默认 GitHub；也开箱支持本地 markdown）
 - **Triage 标签**：五个标准 triage 角色使用的标签字符串
-- **领域文档**：`CONTEXT.md` 和 ADR 存放在哪里，以及阅读它们的消费方规则
+- **领域文档**：`GLOSSARY.md` 和 ADR 存放在哪里，以及阅读它们的消费方规则
 
 这是一个提示词驱动的技能，不是确定性脚本。先探索，展示你的发现，与用户确认，然后再写入。
 
@@ -23,7 +23,7 @@ commit_version: 5c89081d4bbeb3d039a42093653f90bb698d780e
 
 - `git remote -v` 和 `.git/config`：这是 GitHub 仓库吗？是哪一个？
 - 仓库根目录的 `AGENTS.md` 和 `CLAUDE.md`：是否存在？其中是否已经有 `## Agent skills` 小节？
-- 仓库根目录的 `CONTEXT.md` 和 `CONTEXT-MAP.md`
+- 仓库根目录的 `GLOSSARY.md` 和 `GLOSSARY-MAP.md`
 - `docs/adr/` 以及任何 `src/*/docs/adr/` 目录
 - `docs/agents/`：本技能之前的输出是否已经存在？
 - `.scratch/`：标志着本地 markdown issue 跟踪器约定已在使用的迹象
@@ -57,9 +57,11 @@ commit_version: 5c89081d4bbeb3d039a42093653f90bb698d780e
 
 默认值是五个标准角色，每个标签字符串与其名称相同：`needs-triage`、`needs-info`、`ready-for-agent`、`ready-for-human`、`wontfix`。回答**是**就原样写入。只有当用户说不要时（通常是因为他们的跟踪器已经在用其他名字，例如用 `bug:triage` 代替 `needs-triage`），才收集覆盖项，让 `triage` 应用已有标签而不是创建重复标签。
 
-**Section C：领域文档。** 默认采用**单上下文（single-context）**（仓库根目录一个 `CONTEXT.md` + `docs/adr/`）。这适合几乎所有仓库；不用问，直接写入。
+**Section C：领域文档。** 默认采用**单上下文（single-context）**（仓库根目录一个 `GLOSSARY.md` + `docs/adr/`）。这适合几乎所有仓库；不用问，直接写入。
 
-只有当探索发现了 monorepo 信号时，才提供**多上下文（multi-context）**（根目录一个 `CONTEXT-MAP.md`，指向每个上下文各自的 `CONTEXT.md` 文件）。然后确认他们想要哪种布局。
+只有当探索发现了 monorepo 信号时，才提供**多上下文（multi-context）**（根目录一个 `GLOSSARY-MAP.md`，指向每个上下文各自的 `GLOSSARY.md` 文件）。然后确认他们想要哪种布局。
+
+当 Section B 在 GitHub 或 GitLab 上运行过时，为跟踪器补齐每个已配置但缺失的标签（`gh label create` / `glab label create`）。
 
 ### 3. 确认并编辑
 

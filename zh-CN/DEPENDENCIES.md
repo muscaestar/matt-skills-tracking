@@ -12,7 +12,7 @@
 
 ## 第 1 层：主链路（idea → ship）
 
-所有工作的主路。五个技能一条链，外加一个一次性前置配置。
+所有工作的主路。五个技能一条链，外加一个一次性前置配置；`implement-spec`、`pr`、`retro` 是链上的三个可选增强。
 
 ```mermaid
 graph LR
@@ -26,6 +26,9 @@ graph LR
 - 箭头是**产物交接**： grilling 的产出喂给 spec，spec 拆成 ticket，ticket 驱动实现。
 - `implement` 内部驱动 `tdd`（一次一个红绿切片），收尾必跑 `code-review`。
 - **单会话能装下的工作跳过中间两站**：grill 完直接 `implement`。
+- **多 ticket 时的另一种推进方式**：`implement-spec` 把 ticket 读成任务图，在就绪的 frontier 上并行调度实现者 subagent，落在一个集成分支上，最后跑一次 `code-review`。想编排而非亲自驾驶时用它。
+- 工作以 PR 提交时，`pr`（model-invoked）负责正文形状：最小可视化、前后证据、单/双向门判定。
+- `retro` 闭合这个环：构建结束后回顾会话，对 agent 的**环境**提改进（机械错误→确定性检查，判断问题→编码规范），让下次构建从更好的环境出发。
 - 前置：`setup-matt-pocock-skills` 跑一次，配好 issue 跟踪器和标签，`to-spec`/`to-tickets`/`code-review` 才能工作。
 
 ## 第 2 层：地基（词汇原语层）
@@ -35,7 +38,7 @@ graph LR
 ```mermaid
 graph LR
     GRILLING["grilling<br/>面试原语"] --> GWD["grill-with-docs"]
-    DM["domain-modeling<br/>CONTEXT.md / ADR"] --> GWD
+    DM["domain-modeling<br/>GLOSSARY.md / ADR"] --> GWD
     CBD["codebase-design<br/>深模块词汇"] --> TDD["tdd"]
 ```
 
@@ -88,15 +91,14 @@ graph LR
 | **自动化族** | `loop-me` | 把生活里的 loop 烤成 workflow 规格；借用 grilling 纪律 |
 | **元技能** | `ask-matt`（本图的路由版）、`writing-for-agents`（写技能/文档的参考） | 关于体系本身的技能 |
 
-> 另有两个 in-progress 桶的新成员，尚不稳定（STUB/设计稿），未列入上表：`implement-spec`（把规格当任务图并行实现，主链路 `implement` 的多 ticket 编排前身，借用 `frontier`/`context pointer`）、`retro`（会话后给编码 agent 环境提改进建议）。它们毕业后归入主链路/分族时再补图。
+> 另有 in-progress 桶的新成员 `chief-of-staff`，尚不稳定，未列入上表；毕业后再补。
 
 ## 边角：独立工具
 
 与主链路无依赖，需要时单点取用，不值得画进任何图：
 
-- `resolving-merge-conflicts` — 已在冲突中时的解冲突纪律
 - `wizard` — 只有人类能做的步骤（开账号、配密钥）生成向导脚本
 - `research` — 把阅读跑腿委托给后台 agent（产物可喂给 grill-with-docs）
-- `wait-what` — "刚才那段没看懂"，用 CONTEXT.md 词汇重讲一遍
+- `wait-what` — "刚才那段没看懂"，用 GLOSSARY.md 词汇重讲一遍
 - `setup-ts-deep-modules` — 用 dependency-cruiser 把包强制成深模块（借用 codebase-design 词汇）
 - misc 桶（`git-guardrails-claude-code`、`migrate-to-shoehorn`、`scaffold-exercises`、`setup-pre-commit`）— 仓库工具，与体系无关

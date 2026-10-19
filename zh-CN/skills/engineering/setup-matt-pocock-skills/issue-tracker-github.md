@@ -1,5 +1,5 @@
 ---
-commit_version: 321658273cb1d20b76026717d027d505790106d4
+commit_version: 5b7cade4d68947f34dae71326a0ce89f09e22c9c
 ---
 
 # Issue 跟踪器：GitHub
@@ -9,8 +9,9 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 ## 约定
 
 - **创建 issue**：`gh issue create --title "..." --body "..."`。多行正文使用 heredoc。
-- **阅读 issue**：`gh issue view <number> --comments`，用 `jq` 过滤评论，同时获取标签。
+- **阅读 issue**：`gh issue view <number> --json number,title,body,labels,comments`。
 - **列出 issue**：`gh issue list --state open --json number,title,body,labels,comments --jq '[.[] | {number, title, body, labels: [.labels[].name], comments: [.comments[].body]}]'`，并搭配适当的 `--label` 和 `--state` 过滤器。
+- **让 issue 成为某父 issue 的 sub-issue**：`gh issue create --parent <parent> ...`，或事后用 `gh issue edit <parent> --add-sub-issue <child>`（`gh` 2.94+）。旧版 `gh`：`gh api --method POST repos/<owner>/<repo>/issues/<parent>/sub_issues -F sub_issue_id=<child-db-id>`（database id，同下文 **Blocking**）。没有 sub-issues 可用时，在 child 正文顶部写上 `Part of #<parent>`。
 - **评论 issue**：`gh issue comment <number> --body "..."`
 - **添加 / 移除标签**：`gh issue edit <number> --add-label "..."` / `--remove-label "..."`
 - **关闭**：`gh issue close <number> --comment "..."`
@@ -24,7 +25,7 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 设为 `yes` 时，PR 与 issue 走同样的标签和状态流程，使用对应的 `gh pr` 命令：
 
 - **阅读 PR**：`gh pr view <number> --comments`，diff 用 `gh pr diff <number>`。
-- **列出待 triage 的外部 PR**：`gh pr list --state open --json number,title,body,labels,author,authorAssociation,comments`，然后只保留 `authorAssociation` 为 `CONTRIBUTOR`、`FIRST_TIME_CONTRIBUTOR` 或 `NONE` 的（丢弃 `OWNER`/`MEMBER`/`COLLABORATOR`）。
+- **列出待 triage 的外部 PR**：`gh api --paginate 'repos/{owner}/{repo}/pulls?state=open' --jq '.[] | select(.author_association | IN("OWNER","MEMBER","COLLABORATOR") | not) | {number, title, author: .user.login, author_association, labels: [.labels[].name]}'`。
 - **评论 / 打标签 / 关闭**：`gh pr comment`、`gh pr edit --add-label`/`--remove-label`、`gh pr close`。
 
 GitHub 的 issue 和 PR 共用一个编号空间，所以单独的 `#42` 可能是任意一种：用 `gh pr view 42` 解析，失败再退回 `gh issue view 42`。

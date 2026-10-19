@@ -1,5 +1,5 @@
 ---
-commit_version: 3ec8e2399438cd5603324df8263acf3b64cf69b8
+commit_version: 24f41cc26d34ffd688e9105b43798a4b446e267d
 ---
 
 # In Progress（进行中）
@@ -18,5 +18,3 @@ npx skills@latest add mattpocock/skills --skill=<name>
 - **[writing-shape](./writing-shape/SKILL.md)**：拿一个装满原始素材的 markdown 文件，逐段把它塑形成一篇文章，每一步都就格式选择展开争论。
 - **[claude-handoff](./claude-handoff/SKILL.md)**：把当前对话交接给一个立即接手工作的全新后台 agent，通过 `claude --bg` 以交接摘要作为种子。用户调用。
 - **[setup-ts-deep-modules](./setup-ts-deep-modules/SKILL.md)**：把 dependency-cruiser 接入 TypeScript 仓库，让每个包都成为深模块：实现隐藏在子文件夹中，只能通过入口文件触达，测试也经由这些入口点来检验。用户调用。
-- **[implement-spec](./implement-spec/SKILL.md)**：在单个分支上实现整个 spec。把 ticket 当作任务图（而非列表）来处理，在就绪的 frontier 上并行调度实现者 subagent 以获得最大并发，最终以单个 PR 落地。用户调用。
-- **[retro](./retro/SKILL.md)**：在一次会话后，就编码 agent 的环境（steering 文件、编码规范、自动化检查、工具链）提出改进建议。STUB：目前只有设计笔记，尚不可用。用户调用。

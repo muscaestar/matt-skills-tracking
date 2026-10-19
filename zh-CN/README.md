@@ -51,11 +51,13 @@ zh-CN/
 | 分类 | 状态 | 说明 |
 | --- | --- | --- |
 | README.md（仓库总览） | 已完成 | 已翻译为 [`README.repo.md`](./README.repo.md)（因 `zh-CN/README.md` 被本追踪文档占用，仓库总览的翻译使用此文件名） |
-| skills/engineering/* | 已完成 | 已全部翻译（`README.md` 及全部 18 个技能：`ask-matt`、`code-review`、`codebase-design`、`diagnosing-bugs`、`domain-modeling`、`grill-with-docs`、`implement`、`improve-codebase-architecture`、`prototype`、`research`、`resolving-merge-conflicts`、`setup-matt-pocock-skills`、`to-spec`、`to-tickets`、`triage`、`tdd`、`wayfinder`、`wizard`），各 `SKILL.md` 均已添加 `commit_version` 追踪字段 |
+| skills/engineering/* | 已完成 | 已全部翻译（`README.md` 及全部 20 个技能：`ask-matt`、`code-review`、`codebase-design`、`diagnosing-bugs`、`domain-modeling`、`grill-with-docs`、`implement`、`implement-spec`、`improve-codebase-architecture`、`pr`（含 `CREDITS.md`）、`prototype`、`research`、`retro`、`setup-matt-pocock-skills`、`to-spec`、`to-tickets`、`triage`、`tdd`、`wayfinder`、`wizard`），各 `SKILL.md` 均已添加 `commit_version` 追踪字段 |
 | skills/productivity/* | 已完成 | 已全部翻译（`README.md`、`grill-me`、`grilling`、`handoff`、`teach`、`to-questionnaire`、`wait-what`、`writing-for-agents`），各 `SKILL.md` 均已添加 `commit_version` 追踪字段 |
 | skills/misc/* | 已完成 | 已全部翻译（`README.md`、`git-guardrails-claude-code`、`migrate-to-shoehorn`、`scaffold-exercises`、`setup-pre-commit`），各 `SKILL.md` 均已添加 `commit_version` 追踪字段 |
-| skills/in-progress/* | 部分完成 | `README.md` 已翻译（含 `implement-spec`、`retro` 两个新条目，对应 `SKILL.md` 尚未翻译）；`claude-handoff`、`loop-me`、`setup-ts-deep-modules`、`writing-beats`、`writing-fragments`、`writing-shape` 已全部翻译，各 `SKILL.md` 均已添加 `commit_version` 追踪字段 |
+| skills/in-progress/* | 已完成 | 已全部翻译（`README.md`、`chief-of-staff`、`claude-handoff`、`loop-me`、`setup-ts-deep-modules`、`writing-beats`、`writing-fragments`、`writing-shape`），各 `SKILL.md` 均已添加 `commit_version` 追踪字段 |
 | skills/deprecated/* | 已完成 | 已翻译（仅 `README.md`；该桶当前为空） |
+
+> **2026-10-19 同步**：合并上游 86 个提交（至 v1.3.1 后）。结构性变化：`resolving-merge-conflicts` 被上游删除（译文同步删除）；`retro`、`implement-spec` 从 in-progress 毕业进入 engineering（首次翻译）；新增 `pr`、`chief-of-staff`（首次翻译）；`CONTEXT.md`/`CONTEXT-MAP.md` 约定全仓库改名为 `GLOSSARY.md`/`GLOSSARY-MAP.md`（`CONTEXT-FORMAT.md` 随之改名 `GLOSSARY-FORMAT.md`），译文全部跟随。另有 24 个文件的上游修订已同步进译文。
 
 > **2026-09-07 同步**：上游全仓库 em-dash 清理（`3216582`）后，将 31 个 SKILL.md 及全部附属文档/`README` 的译文逐项对齐（标点 + 少量句式重构 + grilling/to-questionnaire 等实质改动），并补齐全部 `commit_version`。当前 62 个有追踪的文件全部与上游同步（`scripts/compare-translations.sh`：0 STALE）。
 

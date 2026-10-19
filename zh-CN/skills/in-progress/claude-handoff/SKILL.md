@@ -3,10 +3,10 @@ name: claude-handoff
 description: 把当前对话交接给一个立即接手工作的全新后台 agent。
 argument-hint: "What will the next session be used for?"
 disable-model-invocation: true
-commit_version: 321658273cb1d20b76026717d027d505790106d4
+commit_version: 4ec00d966d964d8dd8a67d4f4570e998791152db
 ---
 
-为当前对话写一份交接摘要，让全新的 agent 能继续这项工作。不要保存它，而是启动一个以该摘要为提示词的后台 agent：`claude --bg --name "<descriptive name>" "<handoff summary>"`。它在当前工作目录中启动并立即返回；用户用 `claude agents` 管理它。
+为当前对话写一份交接摘要，让全新的 agent 能继续这项工作。把它保存到用户操作系统的临时目录，然后启动一个以该文件内容为提示词的后台 agent：`claude --bg --name "<descriptive name>" -- "$(cat <summary file>)"`。传文件可以避免 shell 执行摘要中的反引号或展开 `$`。它在当前工作目录中启动并立即返回；用户用 `claude agents` 管理它。
 
 始终传 `-n`/`--name` 并附一个描述性名字（例如 `--name "Fix login bug"`）；它设置任务列表、会话选择器和终端标题中显示的显示名。
 

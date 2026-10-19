@@ -2,7 +2,7 @@
 name: wayfinder
 description: 把一大块工作（超过一个 agent 会话能装下的）规划为 issue 跟踪器上一张由决策 ticket 构成的共享地图，然后一次解决一个，直到通往目的地的路清晰可见。
 disable-model-invocation: true
-commit_version: 321658273cb1d20b76026717d027d505790106d4
+commit_version: 8295b8e10d4cdb6cce772a56dda7b7c37075074d
 ---
 
 一个模糊的想法出现了，太大，一个 agent 会话装不下，而且笼罩在迷雾中：从这里到**目的地**的路还看不见。Wayfinding 是关于找到那条路，而不是朝目的地猛冲。本技能把这条路绘制成仓库 issue 跟踪器上的一张**共享地图**，然后一次一个地处理它的**决策 ticket**（解决结果是一个决定的问题，而不是要执行的构建切片），直到路线清晰。
@@ -63,7 +63,7 @@ Wayfinder 默认是**规划**：每个 ticket 解决一个决策，当路清晰�
 <这个 ticket 要解决的决策或调查>
 ```
 
-每个 ticket 携带一个 `wayfinder:<type>` 标签：`research`、`prototype`、`grilling`、`task` 之一（见 [Ticket 类型](#ticket-类型)）。
+每个 ticket 携带一个 `wayfinder:<type>` 标签：`research`、`prototype`、`grilling`、`task` 之一（见 [Ticket 类型](#ticket-类型)）。`wayfinder:` 标签是地图及其 ticket 携带的唯一标签，绝不挂 `ready-for-agent` 之类的 triage 标签：它们是决策，不是实现工作。
 
 会话通过把 ticket 指派给驱动地图的开发者来**认领**它，**最先**做，在任何工作之前，这样并发会话会跳过它。那个指派人_就是_认领：一个未关闭、未指派的 ticket 就是未认领的。
 
@@ -112,8 +112,8 @@ Wayfinder 默认是**规划**：每个 ticket 解决一个决策，当路清晰�
 1. **命名目的地。** 调用 Skill 工具两次，分别传入 "grilling" 和 "domain-modeling"，确定这张地图在寻找通往什么的路：那个规格、决定或改动。目的地固定范围，所以它最先敲定。
 2. **绘制 frontier。** 再次 grill，这次是**广度优先**：在整个空间上扇形展开，而不是在任何一条线上深入，浮现未决的决策和现在就能迈出的第一步。**如果这没有浮现任何迷雾**（通往目的地的路已经清晰，整段旅程小到一个会话就够），你不需要地图。停下来问用户想怎么继续。
 3. **创建地图**（标签 `wayfinder:map`）：填好 Destination 和 Notes，Decisions-so-far 留空，迷雾草图写进 **Not yet specified**。
-4. **创建你现在就能说清楚的 ticket**，作为地图的子 issue，然后在**第二遍**中接好阻塞边（issue 需要先获得 id 才能互相引用）。接线把它们分拣进 frontier 和被阻塞的两堆；你尚且无法说清楚的一切都留在迷雾里，即 **Not yet specified** 小节。
-5. **发射 research 子 agent。** 对你刚创建的每个 `research` ticket，启动一个调用 Skill 工具并传入 "research" 的子 agent 来并行解决它，把发现捕获到一个一次性的 `research/<name>` 分支上，并从 ticket 留下上下文指针。
+4. **创建你现在就能说清楚的 ticket**，作为地图的子 issue，然后在**第二遍**中接好阻塞边（issue 需要先获得 id 才能互相引用）。交叉引用也在这一遍里用真实 id 写好：占位符 `#<n>` 会自动链接到无关的 issue。接线把它们分拣进 frontier 和被阻塞的两堆；你尚且无法说清楚的一切都留在迷雾里，即 **Not yet specified** 小节。
+5. **发射 research 子 agent。** 对你刚创建的每个 `research` ticket，启动一个调用 Skill 工具并传入 "research" 的子 agent 来并行解决它，把发现捕获到一个一次性的 `research/<name>` 分支上，并从 ticket 留下上下文指针。推送分支，但不开 PR：它永远不会被合并。
 6. 停下：绘制就是一个会话的工作；它不亲手解决任何东西。
 
 ### 走遍地图
@@ -122,7 +122,7 @@ Wayfinder 默认是**规划**：每个 ticket 解决一个决策，当路清晰�
 
 1. 加载**地图**：低分辨率视图，而不是每个 ticket 的正文。
 2. 选择 ticket。如果用户点名了一个，用它。否则按顺序取第一个 frontier ticket。**认领它**：在任何工作之前把它指派给自己。
-3. 解决它：**按需放大**：按需获取任何相关或已关闭 ticket 的完整正文；调用 Skill 工具并传入 `## Notes` 块点名的技能。拿不准时，调用 Skill 工具两次，分别传入 "grilling" 和 "domain-modeling"。
+3. 按它的 `wayfinder:<type>` 标签所命名的类型解决它（见 [Ticket 类型](#ticket-类型)）。读标签，不要只读正文：正文从不说明类型。**按需放大**：按需获取任何相关或已关闭 ticket 的完整正文；调用 Skill 工具并传入 `## Notes` 块点名的技能。拿不准时，调用 Skill 工具两次，分别传入 "grilling" 和 "domain-modeling"。
 4. 记录解决方案：把答案发布为一条**解决评论**，**关闭** issue，并向地图的 Decisions-so-far **追加上下文指针**。
 5. 添加新浮现的 ticket（先创建后接线）；让答案已能说清楚的迷雾毕业，把每片毕业的迷雾从 **Not yet specified** 中清除，让它只以新 ticket 的形式存在。如果答案揭示某个 ticket（这一个或另一个）位于目的地之外，把它**判定为超出范围**，而不是在路线上解决它。如果这个决定使地图的其他部分失效，更新或删除那些 ticket。
 

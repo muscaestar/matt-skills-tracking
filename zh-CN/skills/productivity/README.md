@@ -1,5 +1,5 @@
 ---
-commit_version: 321658273cb1d20b76026717d027d505790106d4
+commit_version: d80fa0f4ebe0c5714af0adf8670336065233ecc6
 ---
 
 # Productivity（效率）
@@ -14,7 +14,7 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 - **[handoff](./handoff/SKILL.md)**：将当前对话压缩为一份交接文档，以便另一个 agent 继续这项工作。
 - **[teach](./teach/SKILL.md)**：利用当前目录作为有状态的教学工作区，在多个会话中向用户教授一项新技能或概念。
 - **[to-questionnaire](./to-questionnaire/SKILL.md)**：把一个你无法独自回答的决策，转化为一份写给唯一能回答之人的 Markdown 问卷（可以异步填写，也可以在会议中一起完成）。
-- **[wait-what](./wait-what/SKILL.md)**：一旦某条消息没有说清楚，立刻调用它。agent 会用你缺失的上下文、清晰直白的英语，并结合你的 `CONTEXT.md` 词汇，重新讲一遍。
+- **[wait-what](./wait-what/SKILL.md)**：一旦某条消息没有说清楚，立刻调用它。agent 会用你缺失的上下文、清晰直白的英语，并结合你的 `GLOSSARY.md` 词汇，重新讲一遍。
 
 ## 模型调用
 

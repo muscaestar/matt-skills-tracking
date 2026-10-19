@@ -36,10 +36,16 @@
 | `grounded`（grounding） | 已落地（落地） | 【中文贯通】 | writing-shape | writing-beats |
 | `leading word` | 主导词 | 【中文贯通】 | writing-for-agents | writing-fragments、本文档 |
 | `context pointer` | 上下文指针 | 【中文贯通】 | writing-for-agents | prototype、wayfinder、setup-ts-deep-modules、diagnosing-bugs |
-| `primary source` | 一手来源 | 【中文贯通】 | research、prototype、resolving-merge-conflicts（各自定义，同源概念） | ask-matt |
+| `primary source` | 一手来源 | 【中文贯通】 | research、prototype（各自定义，同源概念） | ask-matt |
 | `glossary` | 术语表 | 【中文贯通】 | domain-modeling | triage、to-spec、to-tickets、setup-matt-pocock-skills、wait-what |
 | `design tree` / `rounds` | 设计树 / 轮次 | 【中文贯通】 | grilling | ask-matt、triage、loop-me |
 | `ready-for-agent` 等五个状态标签 | 不译 | 【英文贯通】 | triage | to-spec、to-tickets、setup-matt-pocock-skills、code-review |
+| `integration branch` | 集成分支 | 【中文贯通】 | implement-spec | ask-matt、to-tickets、engineering README |
+| `task graph` | 任务图 | 【中文贯通】 | implement-spec | ask-matt、engineering README |
+| `implementer subagent` | 实现者 subagent | 【中文贯通】 | implement-spec | ask-matt、engineering README |
+| `navigation pointer` | 导航指针 | 【中文贯通】 | retro | ask-matt |
+| `guardrail` | 护栏 | 【中文贯通】 | retro | writing-for-agents、git-guardrails-claude-code、misc README |
+| `one-way door` / `two-way door` | 单向门 / 双向门 | 【中文贯通】 | pr | engineering README |
 
 ---
 
@@ -63,9 +69,9 @@
 | 原语 | 中文 token | 定义 |
 |---|---|---|
 | `domain model` | 领域模型 | 项目的领域概念体系 |
-| `glossary` | 术语表 | `CONTEXT.md` 的唯一角色："它是术语表，仅此而已" |
+| `glossary` | 术语表 | `GLOSSARY.md` 的唯一角色："它是术语表，仅此而已" |
 | `ADR` | 不译 | 架构决策记录；三标准：难以逆转（hard to reverse）、没有上下文会很意外、真实权衡的结果 |
-| `active discipline` | 主动纪律 | 主动改变模型（挑战术语、写 ADR），区别于只读 `CONTEXT.md` 的一行式习惯 |
+| `active discipline` | 主动纪律 | 主动改变模型（挑战术语、写 ADR），区别于只读 `GLOSSARY.md` 的一行式习惯 |
 
 #### codebase-design（深模块词汇）— `skills/engineering/codebase-design/`
 
@@ -125,6 +131,14 @@
 | `fixed point` | 固定点 | 用户提供的对照点（commit/branch/tag/merge-base） |
 | `smell baseline` | 嗅觉基线 | 12 个 Fowler 坏味道：Mysterious Name、Duplicated Code、Feature Envy、Data Clumps、Primitive Obsession、Repeated Switches、Shotgun Surgery、Divergent Change、Speculative Generality、Message Chains、Middle Man、Refused Bequest（永远 labeled heuristic，仓库成文标准优先） |
 
+#### pr — `skills/engineering/pr/`
+
+| 原语 | 中文 token | 定义 |
+|---|---|---|
+| `one-way door` / `two-way door` | 单向门 / 双向门 | 合并风险判定的核心问题：能否走回来；回滚便宜的 PR 风险低 |
+| blast radius | 爆炸半径（引用 to-tickets） | PR 改动的潜在影响范围 |
+| PR 正文三小节 | `Summary` / `Evidence` / `Merge Danger` | 不译（发布到 PR 上的字面值）；摘要=让关键点清晰的最小视图，证据=前后对比，合并风险=门+爆炸半径 |
+
 ### On-ramps 与健康维护
 
 #### triage — `skills/engineering/triage/`
@@ -165,6 +179,16 @@
 |---|---|---|
 | `deepening opportunities` | 深化机会 | 把浅模块变成深模块的重构候选，HTML 报告呈现 |
 | ADR 冲突标注 | ADR 冲突 | 候选与既有 ADR 矛盾时明确标出，而非回避 |
+
+#### retro — `skills/engineering/retro/`
+
+| 原语 | 中文 token | 定义 |
+|---|---|---|
+| `retrospective` | 复盘 | 会话后对编码 agent 的环境提改进建议，按严重程度排序 |
+| `navigation pointer` | 导航指针 | `CLAUDE.md`/`AGENTS.md`/`CODING_STANDARDS.md` 里指向其他文件的指针；这些入口文件应极其节俭 |
+| `guardrail` | 护栏 | pre-commit 钩子或运行 lint/类型检查/测试的 CI job；没有护栏的仓库本身就是发现 |
+| mechanical vs judgement call | 机械性违规 vs 判断题 | 机械性违规给确定性检查；`CODING_STANDARDS.md` 只留给判断题 |
+| 实现 vs 审查两阶段 | 不译 | 实现 agent 上下文压力最大；编码标准由审查 agent 执行 |
 
 ### 阶段边界与路由（ask-matt）— `skills/engineering/ask-matt/`
 
@@ -209,7 +233,7 @@
 
 | 原语 | 中文 token | 定义 |
 |---|---|---|
-| `ubiquitous language` | 通用语言 | 用 `CONTEXT.md` 的领域词汇重新讲一遍（引用 domain-modeling 的产物） |
+| `ubiquitous language` | 通用语言 | 用 `GLOSSARY.md` 的领域词汇重新讲一遍（引用 domain-modeling 的产物） |
 
 #### teach — `skills/productivity/teach/`
 
@@ -230,12 +254,6 @@
 | `questionnaire` | 问卷 | 把"别人脑子里的答案"引导出来的 Markdown 文档 |
 | grill the send, not the subject | 追问发送，不问主题 | 只问用户答得上来的：发给谁、要回什么 |
 | `the gap` | 差距 | 接收方所知与用户所需之间的差，问卷瞄准它 |
-
-#### resolving-merge-conflicts — `skills/engineering/resolving-merge-conflicts/`
-
-| 原语 | 中文 token | 定义 |
-|---|---|---|
-| resolve by intent | 按意图解决 | 逐 hunk 追溯到各方的一手来源（commit、PR、issue）按意图解决，绝不 `--abort` |
 
 ### 元层：写给 agent 的文档
 

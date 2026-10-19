@@ -1,7 +1,7 @@
 ---
 name: code-review
 description: 对照一个固定点（commit、branch、tag 或 merge-base）沿两个轴审查改动：Standards（代码是否遵循本仓库成文的编码标准？）和 Spec（代码是否符合来源 issue/规格的要求？）。让两场审查在并行子 agent 中运行，并排报告。当用户想要审查分支、PR、进行中的改动，或要求 “review since X” 时使用。
-commit_version: 5c89081d4bbeb3d039a42093653f90bb698d780e
+commit_version: 3da8c01116264675eeefbd6e9d59c734de9095cc
 ---
 
 对 `HEAD` 与用户提供的固定点之间的 diff 做双轴审查：
@@ -11,7 +11,7 @@ commit_version: 5c89081d4bbeb3d039a42093653f90bb698d780e
 
 两个轴都以**并行子 agent**运行，以免互相污染上下文；随后本技能汇总它们的发现。
 
-你应该已经拿到 issue 跟踪器信息。如果 `docs/agents/issue-tracker.md` 缺失，告诉用户运行 `/setup-matt-pocock-skills`。
+你应该已经拿到 issue 跟踪器信息。如果没有，告诉用户运行 `/setup-matt-pocock-skills`。
 
 ## 流程
 
@@ -27,14 +27,14 @@ commit_version: 5c89081d4bbeb3d039a42093653f90bb698d780e
 
 按以下顺序寻找来源规格：
 
-1. 提交消息中的 issue 引用（`#123`、`Closes #45`、GitLab `!67` 等），按 `docs/agents/issue-tracker.md` 中的工作流获取。
+1. 提交消息中的 issue 引用（`#123`、`Closes #45`、GitLab `!67` 等），按跟踪器文档中的工作流获取。
 2. 用户作为参数传入的路径。
 3. `docs/`、`specs/` 或 `.scratch/` 下与分支名或功能匹配的规格文件。
 4. 如果什么都没找到，问用户规格在哪里。如果他们说没有，**Spec** 子 agent 将跳过，并报告 “no spec available”。
 
 ### 3. 找到标准来源
 
-仓库中任何说明代码应如何编写的文档，例如 `CODING_STANDARDS.md` 或 `CONTRIBUTING.md`。
+搜索仓库中所有说明代码应如何编写的文档。当 `CODING_STANDARDS.md` 或 `CONTRIBUTING.md` 存在时，它必须在名单上。
 
 无论仓库记录了什么，Standards 轴始终包含下面的**坏味道基线**：一组固定的 Fowler 代码坏味道（《Refactoring》第 3 章），即使仓库没有任何文档也适用。有两条规则约束它：
 
@@ -71,6 +71,8 @@ commit_version: 5c89081d4bbeb3d039a42093653f90bb698d780e
 - 任务说明：“报告：(a) 规格要求但缺失或只完成了一部分的需求；(b) diff 中规格没有要求的行为（范围蔓延）；(c) 看起来已实现、但实现方式可疑的需求。每项发现都要引用规格原文。400 词以内。”
 
 如果规格缺失，跳过 Spec 子 agent，并在最终报告中注明。
+
+两个子 agent 调用一起发出，在**前台**运行，然后汇总它们返回的报告。
 
 ### 5. 汇总
 

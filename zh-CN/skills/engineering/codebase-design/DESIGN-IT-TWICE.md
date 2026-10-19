@@ -1,5 +1,5 @@
 ---
-commit_version: 321658273cb1d20b76026717d027d505790106d4
+commit_version: d80fa0f4ebe0c5714af0adf8670336065233ecc6
 ---
 
 # 设计两次
@@ -31,7 +31,7 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 - Agent 3：“为最常见的调用方优化：让默认情形变得轻而易举。”
 - Agent 4（如果适用）：“围绕端口与适配器（ports & adapters）设计跨 seam 依赖。”
 
-把 [SKILL.md](SKILL.md) 词汇和 CONTEXT.md 词汇都放进简报，让每个子 agent 的命名既符合架构语言，也符合项目领域语言。
+把 [SKILL.md](SKILL.md) 词汇和 GLOSSARY.md 词汇都放进简报，让每个子 agent 的命名既符合架构语言，也符合项目领域语言。
 
 每个子 agent 输出：
 

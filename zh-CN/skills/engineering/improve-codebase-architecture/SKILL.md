@@ -2,7 +2,7 @@
 name: improve-codebase-architecture
 description: 扫描代码库寻找深化机会，以可视化 HTML 报告呈现，然后就你选中的任何一个继续追问。
 disable-model-invocation: true
-commit_version: 321658273cb1d20b76026717d027d505790106d4
+commit_version: d80fa0f4ebe0c5714af0adf8670336065233ecc6
 ---
 
 # Improve Codebase Architecture
@@ -12,7 +12,7 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 本命令以项目领域模型为*依据*，并建立在一套共享设计词汇之上：
 
 - 调用 Skill 工具，使用 "codebase-design" 获取架构词汇（**module**、**interface**、**depth**、**seam**、**adapter**、**leverage**、**locality**）及其原则（the deletion test、“the interface is the test surface”、“one adapter = hypothetical seam, two = real”）。每条建议都要严格使用这些术语，不要漂移到 “component”、“service”、“API” 或 “boundary”。
-- `CONTEXT.md` 中的领域语言为好 seam 命名；`docs/adr/` 中的 ADR 记录本命令不应重新争辩的决策。
+- `GLOSSARY.md` 中的领域语言为好 seam 命名；`docs/adr/` 中的 ADR 记录本命令不应重新争辩的决策。
 
 ## 流程
 
@@ -23,7 +23,7 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 - 如果用户指明了方向（一个模块、子系统或痛点），就采用它，跳过下面的推断。
 - 否则，往回走一段可观的提交历史（`git log --oneline`），找出代码库的热点（反复出现的文件和区域），让这些路径优先吸引你的注意力。如果改动分散、没有明显热点，就扩大范围。
 
-先阅读项目的领域术语表（`CONTEXT.md`）和所接触区域的任何 ADR。
+先阅读项目的领域术语表（`GLOSSARY.md`）和所接触区域的任何 ADR。
 
 然后派一个子 agent 遍历代码库。不要套用僵硬的启发式规则；有机地探索，并记下你在哪里感到摩擦：
 
@@ -52,7 +52,7 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 
 报告以**Top recommendation** 栏目结束：你会先处理哪个候选，以及为什么。
 
-**领域用语使用 CONTEXT.md 词汇，架构用语使用 `/codebase-design` 词汇。** 如果 `CONTEXT.md` 定义了 “Order”，就说 “the Order intake module”，而不是 “the FooBarHandler”，也不是 “the Order service”。
+**领域用语使用 GLOSSARY.md 词汇，架构用语使用 `/codebase-design` 词汇。** 如果 `GLOSSARY.md` 定义了 “Order”，就说 “the Order intake module”，而不是 “the FooBarHandler”，也不是 “the Order service”。
 
 **ADR 冲突**：如果某个候选与现有 ADR 矛盾，只有当摩擦真实到值得重新讨论该 ADR 时才呈现。在卡片中清晰标记（例如警告提示：_“与 ADR-0007 冲突，但值得重新讨论，因为……”_）。不要列出 ADR 所禁止的每一个理论性重构。
 
@@ -66,7 +66,7 @@ commit_version: 321658273cb1d20b76026717d027d505790106d4
 
 决策成形时副作用即时发生；调用 Skill 工具，使用 "domain-modeling" 让领域模型随时保持最新：
 
-- **给深化后的模块起了一个 `CONTEXT.md` 中没有的概念名？** 把这个术语加进 `CONTEXT.md`。文件不存在就按需创建。
-- **对话中打磨了模糊术语？** 当场更新 `CONTEXT.md`。
+- **给深化后的模块起了一个 `GLOSSARY.md` 中没有的概念名？** 把这个术语加进 `GLOSSARY.md`。文件不存在就按需创建。
+- **对话中打磨了模糊术语？** 当场更新 `GLOSSARY.md`。
 - **用户以有承重作用的理由拒绝了候选？** 提议写 ADR，措辞如：_“想让我把这个记录为 ADR，让未来的架构审查不再重复建议吗？”_ 只有当未来探索者确实需要这个理由来避免重复建议时才提议；临时理由（“现在不值得”）和显而易见的不算。
 - **想为深化后的模块探索替代接口？** 调用 Skill 工具，使用 "codebase-design" 及其 design-it-twice 并行子 agent 模式。

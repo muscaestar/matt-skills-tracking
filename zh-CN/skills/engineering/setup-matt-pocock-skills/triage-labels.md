@@ -1,5 +1,5 @@
 ---
-commit_version: 179a14e721034706ffce7abae75b877c922b4ae8
+commit_version: 5b7cade4d68947f34dae71326a0ce89f09e22c9c
 ---
 
 # Triage 标签
@@ -16,4 +16,4 @@ commit_version: 179a14e721034706ffce7abae75b877c922b4ae8
 
 当技能提到某个角色时（例如"应用 AFK-ready triage 标签"），使用本表中对应的标签字符串。
 
-编辑右列以匹配你实际使用的词汇。
+编辑 "Label in our tracker" 列以匹配你实际使用的词汇。

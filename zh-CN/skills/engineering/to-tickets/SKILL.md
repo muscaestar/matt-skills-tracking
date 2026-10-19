@@ -2,7 +2,7 @@
 name: to-tickets
 description: 把计划、规格或当前对话拆成一组曳光弹（tracer-bullet）ticket，每个 ticket 声明自己的阻塞边，发布到配置好的跟踪器（本地时每 ticket 一个文件、边以文本表示，真实跟踪器上则使用原生阻塞链接）。
 disable-model-invocation: true
-commit_version: 321658273cb1d20b76026717d027d505790106d4
+commit_version: 9e2abf8611a345efbf779aacb171cff015bcdeb6
 ---
 
 # To Tickets
@@ -61,7 +61,7 @@ issue 跟踪器和 triage 标签词汇表应该已经提供给你了。如果没
 发布认可的 ticket。**怎么发**取决于 `/setup-matt-pocock-skills` 配置的跟踪器；ticket 本身不变，只有阻塞边的形态变化：
 
 - **本地文件** → 在 `.scratch/<feature-slug>/issues/<NN>-<slug>.md` 下每个 ticket 写一个文件，按依赖顺序（阻塞方在前）从 `01` 开始编号。每个文件的 "Blocked by" 列出它依赖的编号/标题。使用下面的单 ticket 文件模板：每个文件一个 ticket，永远不要合并成单个文件。
-- **真实 issue 跟踪器（GitHub、Linear 等）** → 按依赖顺序（阻塞方在前）每个 ticket 发布一个 issue，让每个 ticket 的阻塞边能引用真实标识符。平台有原生阻塞 / 子 issue 关系就用原生的；否则把每个 ticket 的 "Blocked by" 设为阻塞它的 issue。除非另有指示，应用 `ready-for-agent` triage 标签；这些 ticket 按构造就是 agent 可以直接认领的。
+- **真实 issue 跟踪器（GitHub、Linear 等）** → 按依赖顺序（阻塞方在前）每个 ticket 发布一个 issue，让每个 ticket 的阻塞边能引用真实标识符。平台有原生阻塞关系就用原生的；否则把每个 ticket 的 "Blocked by" 设为阻塞它的 issue。如果来源是一个已有 issue，把每个 ticket 设为它的 sub-issue（见跟踪器文档的操作）。除非另有指示，应用 `ready-for-agent` triage 标签；这些 ticket 按构造就是 agent 可以直接认领的。
 
 从 **frontier** 开始工作：阻塞方全部完成的任何 ticket。对于纯线性链条，那就是从上到下。
 
@@ -99,7 +99,7 @@ issue 跟踪器和 triage 标签词汇表应该已经提供给你了。如果没
 
 ## Blocked by
 
-- 对每个阻塞 ticket 的引用，或 "None (can start immediately)"。
+- 对每个阻塞 ticket 的引用，或 "None (can start immediately)"。如果阻塞关系已设为原生边，省略本节。
 
 </issue-template>
 

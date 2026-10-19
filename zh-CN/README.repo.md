@@ -192,7 +192,7 @@ npx skills@latest add mattpocock/skills
 **用户调用**
 
 - **[ask-matt](./skills/engineering/ask-matt/SKILL.md)** — 询问哪个技能或流程适合你的处境。它是本仓库中用户调用技能的路由器。
-- **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)** — 一场追问式访谈，同时构建项目的领域模型，打磨术语，并实时更新 `CONTEXT.md` 和 ADR。
+- **[grill-with-docs](./skills/engineering/grill-with-docs/SKILL.md)** — 一场追问式访谈，同时构建项目的领域模型，打磨术语，并实时更新 `GLOSSARY.md` 和 ADR。
 - **[triage](./skills/engineering/triage/SKILL.md)** — 让 issue 经过一个由分诊角色组成的状态机。
 - **[improve-codebase-architecture](./skills/engineering/improve-codebase-architecture/SKILL.md)** — 扫描代码库寻找深化机会，以可视化 HTML 报告呈现，然后就你选中的任何一个继续追问。
 - **[setup-matt-pocock-skills](./skills/engineering/setup-matt-pocock-skills/SKILL.md)** — 为工程技能配置本仓库（issue 跟踪器、分诊标签、领域文档布局）。在使用其他工程技能之前，每个仓库运行一次。
@@ -207,7 +207,7 @@ npx skills@latest add mattpocock/skills
 - **[diagnosing-bugs](./skills/engineering/diagnosing-bugs/SKILL.md)** — 针对疑难 bug 和性能回退的严谨诊断循环：建立一条在本 bug 上变红的反馈回路 → 最小化 → 提出假设 → 插桩 → 修复 → 回归测试。
 - **[research](./skills/engineering/research/SKILL.md)** — 对照高可信度的一手来源调查一个问题，并以带引用的 Markdown 文件形式把发现留在仓库中；作为后台 agent 运行。
 - **[tdd](./skills/engineering/tdd/SKILL.md)** — 红-绿-重构循环的测试驱动开发。一次一个垂直切片地构建功能或修复 bug。
-- **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md)** — 积极构建和打磨项目的领域模型——对照术语表挑战术语、用边角案例场景做压力测试、实时更新 `CONTEXT.md` 和 ADR。
+- **[domain-modeling](./skills/engineering/domain-modeling/SKILL.md)** — 积极构建和打磨项目的领域模型——对照术语表挑战术语、用边角案例场景做压力测试、实时更新 `GLOSSARY.md` 和 ADR。
 - **[codebase-design](./skills/engineering/codebase-design/SKILL.md)** — 设计深模块的共享纪律和词汇：小接口背后的大量行为，落在干净的接缝上，通过该接口可测试。
 - **[code-review](./skills/engineering/code-review/SKILL.md)** — 对自固定点以来的 diff 做双轴审查：**Standards**（是否遵循仓库的编码标准，外加 Fowler 坏味道基线？）和 **Spec**（是否忠实实现来源 issue/规格？），以并行子 agent 运行，互不污染。
 - **[resolving-merge-conflicts](./skills/engineering/resolving-merge-conflicts/SKILL.md)** — 逐块处理进行中的 git merge 或 rebase 冲突，按追溯到双方一手来源的意图来解决，然后完成操作——绝不 `--abort`。
@@ -223,7 +223,7 @@ npx skills@latest add mattpocock/skills
 - **[handoff](./skills/productivity/handoff/SKILL.md)** — 把当前对话压缩成交接文档，让另一个 agent 能继续这项工作。
 - **[teach](./skills/productivity/teach/SKILL.md)** — 跨多个会话教用户一项新技能或概念，以当前目录作为有状态的教学工作区。
 - **[to-questionnaire](./skills/productivity/to-questionnaire/SKILL.md)** — 把你一个人无法回答的决定变成一份 Markdown 问卷，发给那个能回答的人——异步填写，或在会议上一起填。它追问的是你这次发送（发给谁、你需要什么回来），而不是主题本身。
-- **[wait-what](./skills/productivity/wait-what/SKILL.md)** — 在一条消息没听懂的那一刻触发它。Agent 会用你缺的上下文、用大白话、用你的 `CONTEXT.md` 词汇重新讲一遍。
+- **[wait-what](./skills/productivity/wait-what/SKILL.md)** — 在一条消息没听懂的那一刻触发它。Agent 会用你缺的上下文、用大白话、用你的 `GLOSSARY.md` 词汇重新讲一遍。
 
 **模型调用**
 

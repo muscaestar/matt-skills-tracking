@@ -3,10 +3,10 @@ name: handoff
 description: 将当前对话压缩为一份交接文档，供另一个 agent 接手。
 argument-hint: "What will the next session be used for?"
 disable-model-invocation: true
-commit_version: d28dfdc39beadc3142a33359b5cfa4765dcbd0bc
+commit_version: 0f5e033ebc47b142f5ffa56a582ede6d9d9bada3
 ---
 
-写一份总结当前对话的交接文档，以便一个全新的 agent 可以继续这项工作。保存到用户操作系统的临时目录——而不是当前工作区。
+写一份总结当前对话的交接文档，以便一个全新的 agent 可以继续这项工作。保存到用户操作系统的临时目录（`$TMPDIR`，否则 `/tmp`；Windows 上是 `%TEMP%`）——而不是当前工作区。
 
 在文档中加入一个“建议使用的技能”章节，说明下一个 agent 应该针对哪些技能调用 Skill 工具。
 

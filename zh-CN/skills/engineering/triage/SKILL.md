@@ -2,7 +2,7 @@
 name: triage
 description: 让 issue 和外部 PR 在一个由 triage 角色构成的状态机中流转，分类、验证、必要时 grill，并撰写 agent 可直接执行的简报。
 disable-model-invocation: true
-commit_version: 321658273cb1d20b76026717d027d505790106d4
+commit_version: d80fa0f4ebe0c5714af0adf8670336065233ecc6
 ---
 
 # Triage
@@ -76,7 +76,7 @@ triage 期间发布到 issue 跟踪器的每条评论或 issue **必须**以下�
 
 3. **验证论断。** 在任何 grilling 之前，检查论断是否成立。对于 bug，按报告者的步骤复现它。对于 PR，确认 diff 做到了它声称的事：checkout 出来，运行相关测试或命令。报告结果：已确认（附代码路径）、复现失败，或细节不足（一个强烈的 `needs-info` 信号）。一次确认的验证能让 agent 简报有力得多。
 
-4. **Grill（如需要）。** 如果请求需要充实，调用 Skill 工具两次，分别调用 "grilling" 和 "domain-modeling"，以一轮一轮问题的方式把它 grill 成形，随着决策落地，同步打磨领域术语并就地更新 `CONTEXT.md`/ADR。
+4. **Grill（如需要）。** 如果请求需要充实，调用 Skill 工具两次，分别调用 "grilling" 和 "domain-modeling"，以一轮一轮问题的方式把它 grill 成形，随着决策落地，同步打磨领域术语并就地更新 `GLOSSARY.md`/ADR。
 
 5. **应用结果：**
    - `ready-for-agent`：发布一条 agent 简报评论（[AGENT-BRIEF.md](AGENT-BRIEF.md)）。
